@@ -1,0 +1,470 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		39E6654B14B130D100B5A1A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654A14B130D100B5A1A3 /* UIKit.framework */; };
+		39E6654D14B130D100B5A1A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654C14B130D100B5A1A3 /* Foundation.framework */; };
+		39E6654F14B130D100B5A1A3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654E14B130D100B5A1A3 /* CoreData.framework */; };
+		39E6655514B130D100B5A1A3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 39E6655314B130D100B5A1A3 /* InfoPlist.strings */; };
+		39E6655714B130D100B5A1A3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E6655614B130D100B5A1A3 /* main.m */; };
+		39E6655B14B130D100B5A1A3 /* PKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E6655A14B130D100B5A1A3 /* PKAppDelegate.m */; };
+		39E6655E14B130D100B5A1A3 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39E6655C14B130D100B5A1A3 /* MainStoryboard.storyboard */; };
+		39E6656114B130D100B5A1A3 /* Peekaboo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 39E6655F14B130D100B5A1A3 /* Peekaboo.xcdatamodeld */; };
+		39E6656414B130D100B5A1A3 /* PKMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E6656314B130D100B5A1A3 /* PKMasterViewController.m */; };
+		39E6656714B130D100B5A1A3 /* PKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E6656614B130D100B5A1A3 /* PKDetailViewController.m */; };
+		39E6656F14B130D200B5A1A3 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6656E14B130D200B5A1A3 /* SenTestingKit.framework */; };
+		39E6657014B130D200B5A1A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654A14B130D100B5A1A3 /* UIKit.framework */; };
+		39E6657114B130D200B5A1A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654C14B130D100B5A1A3 /* Foundation.framework */; };
+		39E6657214B130D200B5A1A3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654E14B130D100B5A1A3 /* CoreData.framework */; };
+		39E6657A14B130D200B5A1A3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 39E6657814B130D200B5A1A3 /* InfoPlist.strings */; };
+		39E6657D14B130D200B5A1A3 /* PeekabooTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E6657C14B130D200B5A1A3 /* PeekabooTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		39E6657314B130D200B5A1A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39E6653D14B130D000B5A1A3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 39E6654514B130D100B5A1A3;
+			remoteInfo = Peekaboo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		39E6654614B130D100B5A1A3 /* Peekaboo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peekaboo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		39E6654A14B130D100B5A1A3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		39E6654C14B130D100B5A1A3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		39E6654E14B130D100B5A1A3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		39E6655214B130D100B5A1A3 /* Peekaboo-Info.plist */ = {isa = PBXFileReference; path = "Peekaboo-Info.plist"; sourceTree = "<group>"; };
+		39E6655414B130D100B5A1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		39E6655614B130D100B5A1A3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		39E6655814B130D100B5A1A3 /* Peekaboo-Prefix.pch */ = {isa = PBXFileReference; path = "Peekaboo-Prefix.pch"; sourceTree = "<group>"; };
+		39E6655914B130D100B5A1A3 /* PKAppDelegate.h */ = {isa = PBXFileReference; path = PKAppDelegate.h; sourceTree = "<group>"; };
+		39E6655A14B130D100B5A1A3 /* PKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKAppDelegate.m; sourceTree = "<group>"; };
+		39E6655D14B130D100B5A1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		39E6656014B130D100B5A1A3 /* Peekaboo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Peekaboo.xcdatamodel; sourceTree = "<group>"; };
+		39E6656214B130D100B5A1A3 /* PKMasterViewController.h */ = {isa = PBXFileReference; path = PKMasterViewController.h; sourceTree = "<group>"; };
+		39E6656314B130D100B5A1A3 /* PKMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKMasterViewController.m; sourceTree = "<group>"; };
+		39E6656514B130D100B5A1A3 /* PKDetailViewController.h */ = {isa = PBXFileReference; path = PKDetailViewController.h; sourceTree = "<group>"; };
+		39E6656614B130D100B5A1A3 /* PKDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKDetailViewController.m; sourceTree = "<group>"; };
+		39E6656D14B130D200B5A1A3 /* PeekabooTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeekabooTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39E6656E14B130D200B5A1A3 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		39E6657714B130D200B5A1A3 /* PeekabooTests-Info.plist */ = {isa = PBXFileReference; path = "PeekabooTests-Info.plist"; sourceTree = "<group>"; };
+		39E6657914B130D200B5A1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		39E6657B14B130D200B5A1A3 /* PeekabooTests.h */ = {isa = PBXFileReference; path = PeekabooTests.h; sourceTree = "<group>"; };
+		39E6657C14B130D200B5A1A3 /* PeekabooTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeekabooTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		39E6654314B130D100B5A1A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E6654B14B130D100B5A1A3 /* UIKit.framework in Frameworks */,
+				39E6654D14B130D100B5A1A3 /* Foundation.framework in Frameworks */,
+				39E6654F14B130D100B5A1A3 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E6656914B130D200B5A1A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E6656F14B130D200B5A1A3 /* SenTestingKit.framework in Frameworks */,
+				39E6657014B130D200B5A1A3 /* UIKit.framework in Frameworks */,
+				39E6657114B130D200B5A1A3 /* Foundation.framework in Frameworks */,
+				39E6657214B130D200B5A1A3 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		39E6653B14B130D000B5A1A3 = {
+			isa = PBXGroup;
+			children = (
+				39E6655014B130D100B5A1A3 /* Peekaboo */,
+				39E6657514B130D200B5A1A3 /* PeekabooTests */,
+				39E6654914B130D100B5A1A3 /* Frameworks */,
+				39E6654714B130D100B5A1A3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		39E6654714B130D100B5A1A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				39E6654614B130D100B5A1A3 /* Peekaboo.app */,
+				39E6656D14B130D200B5A1A3 /* PeekabooTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		39E6654914B130D100B5A1A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				39E6654A14B130D100B5A1A3 /* UIKit.framework */,
+				39E6654C14B130D100B5A1A3 /* Foundation.framework */,
+				39E6654E14B130D100B5A1A3 /* CoreData.framework */,
+				39E6656E14B130D200B5A1A3 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		39E6655014B130D100B5A1A3 /* Peekaboo */ = {
+			isa = PBXGroup;
+			children = (
+				39E6655914B130D100B5A1A3 /* PKAppDelegate.h */,
+				39E6655A14B130D100B5A1A3 /* PKAppDelegate.m */,
+				39E6655C14B130D100B5A1A3 /* MainStoryboard.storyboard */,
+				39E6656214B130D100B5A1A3 /* PKMasterViewController.h */,
+				39E6656314B130D100B5A1A3 /* PKMasterViewController.m */,
+				39E6656514B130D100B5A1A3 /* PKDetailViewController.h */,
+				39E6656614B130D100B5A1A3 /* PKDetailViewController.m */,
+				39E6655F14B130D100B5A1A3 /* Peekaboo.xcdatamodeld */,
+				39E6655114B130D100B5A1A3 /* Supporting Files */,
+			);
+			path = Peekaboo;
+			sourceTree = "<group>";
+		};
+		39E6655114B130D100B5A1A3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				39E6655214B130D100B5A1A3 /* Peekaboo-Info.plist */,
+				39E6655314B130D100B5A1A3 /* InfoPlist.strings */,
+				39E6655614B130D100B5A1A3 /* main.m */,
+				39E6655814B130D100B5A1A3 /* Peekaboo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		39E6657514B130D200B5A1A3 /* PeekabooTests */ = {
+			isa = PBXGroup;
+			children = (
+				39E6657B14B130D200B5A1A3 /* PeekabooTests.h */,
+				39E6657C14B130D200B5A1A3 /* PeekabooTests.m */,
+				39E6657614B130D200B5A1A3 /* Supporting Files */,
+			);
+			path = PeekabooTests;
+			sourceTree = "<group>";
+		};
+		39E6657614B130D200B5A1A3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				39E6657714B130D200B5A1A3 /* PeekabooTests-Info.plist */,
+				39E6657814B130D200B5A1A3 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		39E6654514B130D100B5A1A3 /* Peekaboo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39E6658014B130D200B5A1A3 /* Build configuration list for PBXNativeTarget "Peekaboo" */;
+			buildPhases = (
+				39E6654214B130D100B5A1A3 /* Sources */,
+				39E6654314B130D100B5A1A3 /* Frameworks */,
+				39E6654414B130D100B5A1A3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Peekaboo;
+			productName = Peekaboo;
+			productReference = 39E6654614B130D100B5A1A3 /* Peekaboo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		39E6656C14B130D200B5A1A3 /* PeekabooTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39E6658314B130D200B5A1A3 /* Build configuration list for PBXNativeTarget "PeekabooTests" */;
+			buildPhases = (
+				39E6656814B130D200B5A1A3 /* Sources */,
+				39E6656914B130D200B5A1A3 /* Frameworks */,
+				39E6656A14B130D200B5A1A3 /* Resources */,
+				39E6656B14B130D200B5A1A3 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39E6657414B130D200B5A1A3 /* PBXTargetDependency */,
+			);
+			name = PeekabooTests;
+			productName = PeekabooTests;
+			productReference = 39E6656D14B130D200B5A1A3 /* PeekabooTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		39E6653D14B130D000B5A1A3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "University of Waterloo";
+			};
+			buildConfigurationList = 39E6654014B130D000B5A1A3 /* Build configuration list for PBXProject "Peekaboo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 39E6653B14B130D000B5A1A3;
+			productRefGroup = 39E6654714B130D100B5A1A3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				39E6654514B130D100B5A1A3 /* Peekaboo */,
+				39E6656C14B130D200B5A1A3 /* PeekabooTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		39E6654414B130D100B5A1A3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E6655514B130D100B5A1A3 /* InfoPlist.strings in Resources */,
+				39E6655E14B130D100B5A1A3 /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E6656A14B130D200B5A1A3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E6657A14B130D200B5A1A3 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		39E6656B14B130D200B5A1A3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		39E6654214B130D100B5A1A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E6655714B130D100B5A1A3 /* main.m in Sources */,
+				39E6655B14B130D100B5A1A3 /* PKAppDelegate.m in Sources */,
+				39E6656114B130D100B5A1A3 /* Peekaboo.xcdatamodeld in Sources */,
+				39E6656414B130D100B5A1A3 /* PKMasterViewController.m in Sources */,
+				39E6656714B130D100B5A1A3 /* PKDetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E6656814B130D200B5A1A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E6657D14B130D200B5A1A3 /* PeekabooTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		39E6657414B130D200B5A1A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 39E6654514B130D100B5A1A3 /* Peekaboo */;
+			targetProxy = 39E6657314B130D200B5A1A3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		39E6655314B130D100B5A1A3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39E6655414B130D100B5A1A3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		39E6655C14B130D100B5A1A3 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39E6655D14B130D100B5A1A3 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+		39E6657814B130D200B5A1A3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39E6657914B130D200B5A1A3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		39E6657E14B130D200B5A1A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		39E6657F14B130D200B5A1A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		39E6658114B130D200B5A1A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Peekaboo/Peekaboo-Prefix.pch";
+				INFOPLIST_FILE = "Peekaboo/Peekaboo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		39E6658214B130D200B5A1A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Peekaboo/Peekaboo-Prefix.pch";
+				INFOPLIST_FILE = "Peekaboo/Peekaboo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		39E6658414B130D200B5A1A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Peekaboo.app/Peekaboo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Peekaboo/Peekaboo-Prefix.pch";
+				INFOPLIST_FILE = "PeekabooTests/PeekabooTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		39E6658514B130D200B5A1A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Peekaboo.app/Peekaboo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Peekaboo/Peekaboo-Prefix.pch";
+				INFOPLIST_FILE = "PeekabooTests/PeekabooTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		39E6654014B130D000B5A1A3 /* Build configuration list for PBXProject "Peekaboo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39E6657E14B130D200B5A1A3 /* Debug */,
+				39E6657F14B130D200B5A1A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39E6658014B130D200B5A1A3 /* Build configuration list for PBXNativeTarget "Peekaboo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39E6658114B130D200B5A1A3 /* Debug */,
+				39E6658214B130D200B5A1A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		39E6658314B130D200B5A1A3 /* Build configuration list for PBXNativeTarget "PeekabooTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39E6658414B130D200B5A1A3 /* Debug */,
+				39E6658514B130D200B5A1A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		39E6655F14B130D100B5A1A3 /* Peekaboo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				39E6656014B130D100B5A1A3 /* Peekaboo.xcdatamodel */,
+			);
+			currentVersion = 39E6656014B130D100B5A1A3 /* Peekaboo.xcdatamodel */;
+			path = Peekaboo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 39E6653D14B130D000B5A1A3 /* Project object */;
+}
