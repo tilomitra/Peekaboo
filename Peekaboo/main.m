@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 #import "PKAppDelegate.h"
+#import "Parse/Parse.h"
 
 int main(int argc, char *argv[])
 {
+    [Parse setApplicationId:@"DOCKNIyEg5jGqZFj18sBxJOTXvYCQjryFDCrD35G" 
+                  clientKey:@"KuOvNtvcP4B6eYHySdOcpU0WiA13wjPzHVhQFheq"];
     @autoreleasepool {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([PKAppDelegate class]));
     }

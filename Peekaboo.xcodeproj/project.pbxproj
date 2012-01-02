@@ -23,6 +23,24 @@
 		39E6657214B130D200B5A1A3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654E14B130D100B5A1A3 /* CoreData.framework */; };
 		39E6657A14B130D200B5A1A3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 39E6657814B130D200B5A1A3 /* InfoPlist.strings */; };
 		39E6657D14B130D200B5A1A3 /* PeekabooTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E6657C14B130D200B5A1A3 /* PeekabooTests.m */; };
+		39E6658B14B131AC00B5A1A3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6658A14B131AC00B5A1A3 /* Parse.framework */; };
+		39E6658E14B131EB00B5A1A3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6658D14B131EB00B5A1A3 /* AudioToolbox.framework */; };
+		39E6659014B131F400B5A1A3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6658F14B131F400B5A1A3 /* CFNetwork.framework */; };
+		39E6659214B131F900B5A1A3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6659114B131F900B5A1A3 /* SystemConfiguration.framework */; };
+		39E6659414B131FF00B5A1A3 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6659314B131FF00B5A1A3 /* MobileCoreServices.framework */; };
+		39E6659614B1320600B5A1A3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6659514B1320600B5A1A3 /* CoreGraphics.framework */; };
+		39E6659814B1320D00B5A1A3 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6659714B1320D00B5A1A3 /* libz.1.1.3.dylib */; };
+		39E6659A14B1321000B5A1A3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6659914B1321000B5A1A3 /* Security.framework */; };
+		39E6659C14B1321500B5A1A3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6659B14B1321500B5A1A3 /* QuartzCore.framework */; };
+		39E665A414B1328200B5A1A3 /* AVCamCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E6659F14B1328200B5A1A3 /* AVCamCaptureManager.m */; };
+		39E665A514B1328200B5A1A3 /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E665A114B1328200B5A1A3 /* AVCamRecorder.m */; };
+		39E665A614B1328200B5A1A3 /* AVCamUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E665A314B1328200B5A1A3 /* AVCamUtilities.m */; };
+		39E665A814B1387200B5A1A3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665A714B1387200B5A1A3 /* AVFoundation.framework */; };
+		39E665AA14B1387A00B5A1A3 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665A914B1387A00B5A1A3 /* AssetsLibrary.framework */; };
+		39E665AC14B1388100B5A1A3 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665AB14B1388100B5A1A3 /* CoreVideo.framework */; };
+		39E665AE14B1388600B5A1A3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665AD14B1388600B5A1A3 /* ImageIO.framework */; };
+		39E665B014B1389100B5A1A3 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665AF14B1389100B5A1A3 /* MediaPlayer.framework */; };
+		39E665B214B1389800B5A1A3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665B114B1389800B5A1A3 /* CoreMedia.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,24 +58,45 @@
 		39E6654A14B130D100B5A1A3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		39E6654C14B130D100B5A1A3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		39E6654E14B130D100B5A1A3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		39E6655214B130D100B5A1A3 /* Peekaboo-Info.plist */ = {isa = PBXFileReference; path = "Peekaboo-Info.plist"; sourceTree = "<group>"; };
+		39E6655214B130D100B5A1A3 /* Peekaboo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Peekaboo-Info.plist"; sourceTree = "<group>"; };
 		39E6655414B130D100B5A1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		39E6655614B130D100B5A1A3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		39E6655814B130D100B5A1A3 /* Peekaboo-Prefix.pch */ = {isa = PBXFileReference; path = "Peekaboo-Prefix.pch"; sourceTree = "<group>"; };
-		39E6655914B130D100B5A1A3 /* PKAppDelegate.h */ = {isa = PBXFileReference; path = PKAppDelegate.h; sourceTree = "<group>"; };
+		39E6655814B130D100B5A1A3 /* Peekaboo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Peekaboo-Prefix.pch"; sourceTree = "<group>"; };
+		39E6655914B130D100B5A1A3 /* PKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKAppDelegate.h; sourceTree = "<group>"; };
 		39E6655A14B130D100B5A1A3 /* PKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKAppDelegate.m; sourceTree = "<group>"; };
 		39E6655D14B130D100B5A1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		39E6656014B130D100B5A1A3 /* Peekaboo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Peekaboo.xcdatamodel; sourceTree = "<group>"; };
-		39E6656214B130D100B5A1A3 /* PKMasterViewController.h */ = {isa = PBXFileReference; path = PKMasterViewController.h; sourceTree = "<group>"; };
+		39E6656214B130D100B5A1A3 /* PKMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKMasterViewController.h; sourceTree = "<group>"; };
 		39E6656314B130D100B5A1A3 /* PKMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKMasterViewController.m; sourceTree = "<group>"; };
-		39E6656514B130D100B5A1A3 /* PKDetailViewController.h */ = {isa = PBXFileReference; path = PKDetailViewController.h; sourceTree = "<group>"; };
+		39E6656514B130D100B5A1A3 /* PKDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PKDetailViewController.h; sourceTree = "<group>"; };
 		39E6656614B130D100B5A1A3 /* PKDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PKDetailViewController.m; sourceTree = "<group>"; };
 		39E6656D14B130D200B5A1A3 /* PeekabooTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeekabooTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E6656E14B130D200B5A1A3 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		39E6657714B130D200B5A1A3 /* PeekabooTests-Info.plist */ = {isa = PBXFileReference; path = "PeekabooTests-Info.plist"; sourceTree = "<group>"; };
+		39E6657714B130D200B5A1A3 /* PeekabooTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PeekabooTests-Info.plist"; sourceTree = "<group>"; };
 		39E6657914B130D200B5A1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		39E6657B14B130D200B5A1A3 /* PeekabooTests.h */ = {isa = PBXFileReference; path = PeekabooTests.h; sourceTree = "<group>"; };
+		39E6657B14B130D200B5A1A3 /* PeekabooTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeekabooTests.h; sourceTree = "<group>"; };
 		39E6657C14B130D200B5A1A3 /* PeekabooTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeekabooTests.m; sourceTree = "<group>"; };
+		39E6658A14B131AC00B5A1A3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../Desktop/Parse.framework; sourceTree = "<group>"; };
+		39E6658D14B131EB00B5A1A3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		39E6658F14B131F400B5A1A3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		39E6659114B131F900B5A1A3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		39E6659314B131FF00B5A1A3 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		39E6659514B1320600B5A1A3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		39E6659714B1320D00B5A1A3 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
+		39E6659914B1321000B5A1A3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		39E6659B14B1321500B5A1A3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		39E6659E14B1328200B5A1A3 /* AVCamCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamCaptureManager.h; sourceTree = "<group>"; };
+		39E6659F14B1328200B5A1A3 /* AVCamCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamCaptureManager.m; sourceTree = "<group>"; };
+		39E665A014B1328200B5A1A3 /* AVCamRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamRecorder.h; sourceTree = "<group>"; };
+		39E665A114B1328200B5A1A3 /* AVCamRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamRecorder.m; sourceTree = "<group>"; };
+		39E665A214B1328200B5A1A3 /* AVCamUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamUtilities.h; sourceTree = "<group>"; };
+		39E665A314B1328200B5A1A3 /* AVCamUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamUtilities.m; sourceTree = "<group>"; };
+		39E665A714B1387200B5A1A3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		39E665A914B1387A00B5A1A3 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		39E665AB14B1388100B5A1A3 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		39E665AD14B1388600B5A1A3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		39E665AF14B1389100B5A1A3 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		39E665B114B1389800B5A1A3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +104,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39E665B214B1389800B5A1A3 /* CoreMedia.framework in Frameworks */,
+				39E665B014B1389100B5A1A3 /* MediaPlayer.framework in Frameworks */,
+				39E665AE14B1388600B5A1A3 /* ImageIO.framework in Frameworks */,
+				39E665AC14B1388100B5A1A3 /* CoreVideo.framework in Frameworks */,
+				39E665AA14B1387A00B5A1A3 /* AssetsLibrary.framework in Frameworks */,
+				39E665A814B1387200B5A1A3 /* AVFoundation.framework in Frameworks */,
+				39E6659C14B1321500B5A1A3 /* QuartzCore.framework in Frameworks */,
+				39E6659A14B1321000B5A1A3 /* Security.framework in Frameworks */,
+				39E6659814B1320D00B5A1A3 /* libz.1.1.3.dylib in Frameworks */,
+				39E6659614B1320600B5A1A3 /* CoreGraphics.framework in Frameworks */,
+				39E6659414B131FF00B5A1A3 /* MobileCoreServices.framework in Frameworks */,
+				39E6659214B131F900B5A1A3 /* SystemConfiguration.framework in Frameworks */,
+				39E6659014B131F400B5A1A3 /* CFNetwork.framework in Frameworks */,
+				39E6658E14B131EB00B5A1A3 /* AudioToolbox.framework in Frameworks */,
+				39E6658B14B131AC00B5A1A3 /* Parse.framework in Frameworks */,
 				39E6654B14B130D100B5A1A3 /* UIKit.framework in Frameworks */,
 				39E6654D14B130D100B5A1A3 /* Foundation.framework in Frameworks */,
 				39E6654F14B130D100B5A1A3 /* CoreData.framework in Frameworks */,
@@ -88,6 +142,12 @@
 		39E6653B14B130D000B5A1A3 = {
 			isa = PBXGroup;
 			children = (
+				39E665B114B1389800B5A1A3 /* CoreMedia.framework */,
+				39E665AF14B1389100B5A1A3 /* MediaPlayer.framework */,
+				39E665AD14B1388600B5A1A3 /* ImageIO.framework */,
+				39E665AB14B1388100B5A1A3 /* CoreVideo.framework */,
+				39E665A914B1387A00B5A1A3 /* AssetsLibrary.framework */,
+				39E665A714B1387200B5A1A3 /* AVFoundation.framework */,
 				39E6655014B130D100B5A1A3 /* Peekaboo */,
 				39E6657514B130D200B5A1A3 /* PeekabooTests */,
 				39E6654914B130D100B5A1A3 /* Frameworks */,
@@ -107,6 +167,15 @@
 		39E6654914B130D100B5A1A3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				39E6659B14B1321500B5A1A3 /* QuartzCore.framework */,
+				39E6659914B1321000B5A1A3 /* Security.framework */,
+				39E6659714B1320D00B5A1A3 /* libz.1.1.3.dylib */,
+				39E6659514B1320600B5A1A3 /* CoreGraphics.framework */,
+				39E6659314B131FF00B5A1A3 /* MobileCoreServices.framework */,
+				39E6659114B131F900B5A1A3 /* SystemConfiguration.framework */,
+				39E6658F14B131F400B5A1A3 /* CFNetwork.framework */,
+				39E6658D14B131EB00B5A1A3 /* AudioToolbox.framework */,
+				39E6658A14B131AC00B5A1A3 /* Parse.framework */,
 				39E6654A14B130D100B5A1A3 /* UIKit.framework */,
 				39E6654C14B130D100B5A1A3 /* Foundation.framework */,
 				39E6654E14B130D100B5A1A3 /* CoreData.framework */,
@@ -118,6 +187,7 @@
 		39E6655014B130D100B5A1A3 /* Peekaboo */ = {
 			isa = PBXGroup;
 			children = (
+				39E6659D14B1327100B5A1A3 /* AV Utilities */,
 				39E6655914B130D100B5A1A3 /* PKAppDelegate.h */,
 				39E6655A14B130D100B5A1A3 /* PKAppDelegate.m */,
 				39E6655C14B130D100B5A1A3 /* MainStoryboard.storyboard */,
@@ -159,6 +229,19 @@
 				39E6657814B130D200B5A1A3 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		39E6659D14B1327100B5A1A3 /* AV Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				39E6659E14B1328200B5A1A3 /* AVCamCaptureManager.h */,
+				39E6659F14B1328200B5A1A3 /* AVCamCaptureManager.m */,
+				39E665A014B1328200B5A1A3 /* AVCamRecorder.h */,
+				39E665A114B1328200B5A1A3 /* AVCamRecorder.m */,
+				39E665A214B1328200B5A1A3 /* AVCamUtilities.h */,
+				39E665A314B1328200B5A1A3 /* AVCamUtilities.m */,
+			);
+			name = "AV Utilities";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,6 +356,9 @@
 				39E6656114B130D100B5A1A3 /* Peekaboo.xcdatamodeld in Sources */,
 				39E6656414B130D100B5A1A3 /* PKMasterViewController.m in Sources */,
 				39E6656714B130D100B5A1A3 /* PKDetailViewController.m in Sources */,
+				39E665A414B1328200B5A1A3 /* AVCamCaptureManager.m in Sources */,
+				39E665A514B1328200B5A1A3 /* AVCamRecorder.m in Sources */,
+				39E665A614B1328200B5A1A3 /* AVCamUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +456,10 @@
 		39E6658114B130D200B5A1A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Desktop\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Peekaboo/Peekaboo-Prefix.pch";
 				INFOPLIST_FILE = "Peekaboo/Peekaboo-Info.plist";
@@ -381,6 +471,10 @@
 		39E6658214B130D200B5A1A3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Desktop\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Peekaboo/Peekaboo-Prefix.pch";
 				INFOPLIST_FILE = "Peekaboo/Peekaboo-Info.plist";
@@ -442,6 +536,7 @@
 				39E6658214B130D200B5A1A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		39E6658314B130D200B5A1A3 /* Build configuration list for PBXNativeTarget "PeekabooTests" */ = {
 			isa = XCConfigurationList;
@@ -450,6 +545,7 @@
 				39E6658514B130D200B5A1A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

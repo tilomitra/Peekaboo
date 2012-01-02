@@ -7,14 +7,36 @@
 //
 
 #import "PKMasterViewController.h"
-
 #import "PKDetailViewController.h"
+#import "AVCamCaptureManager.h"
+#import "AVCamRecorder.h"
+#import <AVFoundation/AVFoundation.h>
 
-@interface PKMasterViewController ()
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
+
+@interface PKMasterViewController () <UIGestureRecognizerDelegate>
 @end
 
+@interface PKMasterViewController (InternalMethods)
+- (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates;
+- (void)tapToAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
+- (void)tapToContinouslyAutoFocus:(UIGestureRecognizer *)gestureRecognizer;
+- (void)updateButtonStates;
+@end
+
+@interface PKMasterViewController (AVCamCaptureManagerDelegate) <AVCamCaptureManagerDelegate>
+@end
+
+
 @implementation PKMasterViewController
+
+@synthesize captureManager;
+@synthesize cameraToggleButton;
+@synthesize recordButton;
+@synthesize stillButton;
+@synthesize focusModeLabel;
+@synthesize videoPreviewView;
+@synthesize captureVideoPreviewLayer;
 
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
@@ -38,10 +60,73 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     // Set up the edit and add buttons.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    //self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
+    //self.navigationItem.rightBarButtonItem = addButton;
+    
+    [[self cameraToggleButton] setTitle:NSLocalizedString(@"Camera", @"Toggle camera button title")];
+    [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
+    [[self stillButton] setTitle:NSLocalizedString(@"Photo", @"Capture still image button title")];
+    
+    
+	if ([self captureManager] == nil) {
+		AVCamCaptureManager *manager = [[AVCamCaptureManager alloc] init];
+		[self setCaptureManager:manager];
+		
+		[[self captureManager] setDelegate:self];
+        
+		if ([[self captureManager] setupSession]) {
+            // Create video preview layer and add it to the UI
+			AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
+			UIView *view = [self videoPreviewView];
+			CALayer *viewLayer = [view layer];
+			[viewLayer setMasksToBounds:YES];
+			
+			CGRect bounds = [view bounds];
+			[newCaptureVideoPreviewLayer setFrame:bounds];
+			
+			if ([newCaptureVideoPreviewLayer isOrientationSupported]) {
+				[newCaptureVideoPreviewLayer setOrientation:AVCaptureVideoOrientationPortrait];
+			}
+			
+			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+			
+			[viewLayer insertSublayer:newCaptureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
+			
+			[self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
+			
+            // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+				[[[self captureManager] session] startRunning];
+			});
+			
+            [self updateButtonStates];
+			
+            // Create the focus mode UI overlay
+			UILabel *newFocusModeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, viewLayer.bounds.size.width - 20, 20)];
+			[newFocusModeLabel setBackgroundColor:[UIColor clearColor]];
+			[newFocusModeLabel setTextColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.50]];
+			AVCaptureFocusMode initialFocusMode = [[[captureManager videoInput] device] focusMode];
+			//[newFocusModeLabel setText:[NSString stringWithFormat:@"focus: %@", [self stringForFocusMode:initialFocusMode]]];
+			[view addSubview:newFocusModeLabel];
+			[self addObserver:self forKeyPath:@"captureManager.videoInput.device.focusMode" options:NSKeyValueObservingOptionNew context:AVCamFocusModeObserverContext];
+			[self setFocusModeLabel:newFocusModeLabel];
+            
+            // Add a single tap gesture to focus on the point tapped, then lock focus
+			UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToAutoFocus:)];
+			[singleTap setDelegate:self];
+			[singleTap setNumberOfTapsRequired:1];
+			[view addGestureRecognizer:singleTap];
+			
+            // Add a double tap gesture to reset the focus mode to continuous auto focus
+			UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapToContinouslyAutoFocus:)];
+			[doubleTap setDelegate:self];
+			[doubleTap setNumberOfTapsRequired:2];
+			[singleTap requireGestureRecognizerToFail:doubleTap];
+			[view addGestureRecognizer:doubleTap];
+		}		
+	}
 }
 
 - (void)viewDidUnload
@@ -77,205 +162,262 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-// Customize the number of sections in the table view.
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+
+
+- (NSString *)stringForFocusMode:(AVCaptureFocusMode)focusMode
 {
-    return [[self.fetchedResultsController sections] count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
-}
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    [self configureCell:cell atIndexPath:indexPath];
-    return cell;
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the managed object for the given index path
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-        
-        // Save the context.
-        NSError *error = nil;
-        if (![context save:&error]) {
-            /*
-             Replace this implementation with code to handle the error appropriately.
-             
-             abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-             */
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }   
-}
-
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // The table view should not be re-orderable.
-    return NO;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        [[segue destinationViewController] setDetailItem:selectedObject];
-    }
-}
-
-#pragma mark - Fetched results controller
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    if (__fetchedResultsController != nil) {
-        return __fetchedResultsController;
-    }
-    
-    // Set up the fetched results controller.
-    // Create the fetch request for the entity.
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
-    
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-	    /*
-	     Replace this implementation with code to handle the error appropriately.
-
-	     abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-	     */
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
+	NSString *focusString = @"";
+	
+	switch (focusMode) {
+		case AVCaptureFocusModeLocked:
+			focusString = @"locked";
+			break;
+		case AVCaptureFocusModeAutoFocus:
+			focusString = @"auto";
+			break;
+		case AVCaptureFocusModeContinuousAutoFocus:
+			focusString = @"continuous";
+			break;
 	}
-    
-    return __fetchedResultsController;
-}    
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.tableView beginUpdates];
+	
+	return focusString;
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-            break;
+    if (context == AVCamFocusModeObserverContext) {
+        // Update the focus UI overlay string when the focus mode changes
+		[focusModeLabel setText:[NSString stringWithFormat:@"focus: %@", [self stringForFocusMode:(AVCaptureFocusMode)[[change objectForKey:NSKeyValueChangeNewKey] integerValue]]]];
+	} else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath
+#pragma mark Toolbar Actions
+- (IBAction)toggleCamera:(id)sender
 {
-    UITableView *tableView = self.tableView;
+    // Toggle between cameras when there is more than one
+    [[self captureManager] toggleCamera];
     
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeUpdate:
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
-            break;
-            
-        case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
-            break;
+    // Do an initial focus
+    [[self captureManager] continuousFocusAtPoint:CGPointMake(.5f, .5f)];
+}
+
+- (IBAction)navigateToDetailView:(id)sender {
+    [self performSegueWithIdentifier:@"testSegue" sender:sender];
+}
+
+- (IBAction)toggleRecording:(id)sender
+{
+    // Start recording if there isn't a recording running. Stop recording if there is.
+    [[self recordButton] setEnabled:NO];
+    if (![[[self captureManager] recorder] isRecording])
+        [[self captureManager] startRecording];
+    else
+        [[self captureManager] stopRecording];
+}
+
+- (IBAction)captureStillImage:(id)sender
+{
+    // Capture a still image
+    [[self stillButton] setEnabled:NO];
+    [[self captureManager] captureStillImage];
+    //[[TKAlertCenter defaultCenter] postAlertWithMessage:@"Processing Image..."];
+    // Flash the screen white and fade it out to give UI feedback that a still image was taken
+    UIView *flashView = [[UIView alloc] initWithFrame:[[self videoPreviewView] frame]];
+    [flashView setBackgroundColor:[UIColor whiteColor]];
+    [[[self view] window] addSubview:flashView];
+    
+    [UIView animateWithDuration:.4f
+                     animations:^{
+                         [flashView setAlpha:0.f];
+                     }
+                     completion:^(BOOL finished){
+                         [flashView removeFromSuperview];
+                     }
+     ];
+    
+    
+    
+}
+
+
+- (void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"captureManager.videoInput.device.focusMode"];
+
+}
+
+
+@end
+
+@implementation PKMasterViewController (InternalMethods)
+
+// Convert from view coordinates to camera coordinates, where {0,0} represents the top left of the picture area, and {1,1} represents
+// the bottom right in landscape mode with the home button on the right.
+- (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates 
+{
+    CGPoint pointOfInterest = CGPointMake(.5f, .5f);
+    CGSize frameSize = [[self videoPreviewView] frame].size;
+    
+    if ([captureVideoPreviewLayer isMirrored]) {
+        viewCoordinates.x = frameSize.width - viewCoordinates.x;
+    }    
+    
+    if ( [[captureVideoPreviewLayer videoGravity] isEqualToString:AVLayerVideoGravityResize] ) {
+		// Scale, switch x and y, and reverse x
+        pointOfInterest = CGPointMake(viewCoordinates.y / frameSize.height, 1.f - (viewCoordinates.x / frameSize.width));
+    } else {
+        CGRect cleanAperture;
+        for (AVCaptureInputPort *port in [[[self captureManager] videoInput] ports]) {
+            if ([port mediaType] == AVMediaTypeVideo) {
+                cleanAperture = CMVideoFormatDescriptionGetCleanAperture([port formatDescription], YES);
+                CGSize apertureSize = cleanAperture.size;
+                CGPoint point = viewCoordinates;
+                
+                CGFloat apertureRatio = apertureSize.height / apertureSize.width;
+                CGFloat viewRatio = frameSize.width / frameSize.height;
+                CGFloat xc = .5f;
+                CGFloat yc = .5f;
+                
+                if ( [[captureVideoPreviewLayer videoGravity] isEqualToString:AVLayerVideoGravityResizeAspect] ) {
+                    if (viewRatio > apertureRatio) {
+                        CGFloat y2 = frameSize.height;
+                        CGFloat x2 = frameSize.height * apertureRatio;
+                        CGFloat x1 = frameSize.width;
+                        CGFloat blackBar = (x1 - x2) / 2;
+						// If point is inside letterboxed area, do coordinate conversion; otherwise, don't change the default value returned (.5,.5)
+                        if (point.x >= blackBar && point.x <= blackBar + x2) {
+							// Scale (accounting for the letterboxing on the left and right of the video preview), switch x and y, and reverse x
+                            xc = point.y / y2;
+                            yc = 1.f - ((point.x - blackBar) / x2);
+                        }
+                    } else {
+                        CGFloat y2 = frameSize.width / apertureRatio;
+                        CGFloat y1 = frameSize.height;
+                        CGFloat x2 = frameSize.width;
+                        CGFloat blackBar = (y1 - y2) / 2;
+						// If point is inside letterboxed area, do coordinate conversion. Otherwise, don't change the default value returned (.5,.5)
+                        if (point.y >= blackBar && point.y <= blackBar + y2) {
+							// Scale (accounting for the letterboxing on the top and bottom of the video preview), switch x and y, and reverse x
+                            xc = ((point.y - blackBar) / y2);
+                            yc = 1.f - (point.x / x2);
+                        }
+                    }
+                } else if ([[captureVideoPreviewLayer videoGravity] isEqualToString:AVLayerVideoGravityResizeAspectFill]) {
+					// Scale, switch x and y, and reverse x
+                    if (viewRatio > apertureRatio) {
+                        CGFloat y2 = apertureSize.width * (frameSize.width / apertureSize.height);
+                        xc = (point.y + ((y2 - frameSize.height) / 2.f)) / y2; // Account for cropped height
+                        yc = (frameSize.width - point.x) / frameSize.width;
+                    } else {
+                        CGFloat x2 = apertureSize.height * (frameSize.height / apertureSize.width);
+                        yc = 1.f - ((point.x + ((x2 - frameSize.width) / 2)) / x2); // Account for cropped width
+                        xc = point.y / frameSize.height;
+                    }
+                }
+                
+                pointOfInterest = CGPointMake(xc, yc);
+                break;
+            }
+        }
+    }
+    
+    return pointOfInterest;
+}
+
+// Auto focus at a particular point. The focus mode will change to locked once the auto focus happens.
+- (void)tapToAutoFocus:(UIGestureRecognizer *)gestureRecognizer
+{
+    if ([[[captureManager videoInput] device] isFocusPointOfInterestSupported]) {
+        CGPoint tapPoint = [gestureRecognizer locationInView:[self videoPreviewView]];
+        CGPoint convertedFocusPoint = [self convertToPointOfInterestFromViewCoordinates:tapPoint];
+        [captureManager autoFocusAtPoint:convertedFocusPoint];
     }
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+// Change to continuous auto focus. The camera will constantly focus at the point choosen.
+- (void)tapToContinouslyAutoFocus:(UIGestureRecognizer *)gestureRecognizer
 {
-    [self.tableView endUpdates];
+    if ([[[captureManager videoInput] device] isFocusPointOfInterestSupported])
+        [captureManager continuousFocusAtPoint:CGPointMake(.5f, .5f)];
 }
 
-/*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
- 
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+// Update button states based on the number of available cameras and mics
+- (void)updateButtonStates
 {
-    // In the simplest, most efficient, case, reload the table view.
-    [self.tableView reloadData];
-}
- */
-
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
-    NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[managedObject valueForKey:@"timeStamp"] description];
-}
-
-- (void)insertNewObject
-{
-    // Create a new instance of the entity managed by the fetched results controller.
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+	NSUInteger cameraCount = [[self captureManager] cameraCount];
+	NSUInteger micCount = [[self captureManager] micCount];
     
-    // If appropriate, configure the new managed object.
-    // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        if (cameraCount < 2) {
+            [[self cameraToggleButton] setEnabled:NO]; 
+            
+            if (cameraCount < 1) {
+                [[self stillButton] setEnabled:NO];
+                
+                if (micCount < 1)
+                    [[self recordButton] setEnabled:NO];
+                else
+                    [[self recordButton] setEnabled:YES];
+            } else {
+                [[self stillButton] setEnabled:YES];
+                [[self recordButton] setEnabled:YES];
+            }
+        } else {
+            [[self cameraToggleButton] setEnabled:YES];
+            [[self stillButton] setEnabled:YES];
+            [[self recordButton] setEnabled:YES];
+        }
+    });
+}
+
+@end
+
+@implementation PKMasterViewController (AVCamCaptureManagerDelegate)
+
+- (void)captureManager:(AVCamCaptureManager *)captureManager didFailWithError:(NSError *)error
+{
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
+                                                            message:[error localizedFailureReason]
+                                                           delegate:nil
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", @"OK button title")
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    });
+}
+
+- (void)captureManagerRecordingBegan:(AVCamCaptureManager *)captureManager
+{
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        [[self recordButton] setTitle:NSLocalizedString(@"Stop", @"Toggle recording button stop title")];
+        [[self recordButton] setEnabled:YES];
+    });
+}
+
+- (void)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager
+{
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
+        [[self recordButton] setEnabled:YES];
+    });
+}
+
+- (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager
+{
+    //[self showFaceDetectionViewWithImage:[self.captureManager lastCapturedImage]];
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        [[self stillButton] setEnabled:YES];
+    });
     
-    // Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-        /*
-         Replace this implementation with code to handle the error appropriately.
-         
-         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-         */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    
+}
+
+- (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager
+{
+	[self updateButtonStates];
 }
 
 @end

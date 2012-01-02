@@ -20,9 +20,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    PKMasterViewController *controller = (PKMasterViewController *)navigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
+    //UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+    //PKMasterViewController *controller = (PKMasterViewController *)navigationController.topViewController;
+    
+    //PKMasterViewController *masterVC = [navigationController.storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
+    //controller.managedObjectContext = self.managedObjectContext;
+    //PKMaster *custom = [navController.storyboard instantiateViewControllerWithIdentifier:@"CustomController"];
+    
+    // First item in array is bottom of stack, last item is top.
+    //navigationController.viewControllers = [NSArray arrayWithObjects:masterVC, nil];
+    
+    //[navigationController popToViewController:controller animated:YES];
+    //[self.window makeKeyAndVisible];
+    
+    
+    
     return YES;
 }
 							
