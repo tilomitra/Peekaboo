@@ -14,30 +14,17 @@
 
 @implementation PKDetailViewController
 
-@synthesize detailItem = _detailItem;
-@synthesize detailDescriptionLabel = _detailDescriptionLabel;
+@synthesize capturedImageView;
+@synthesize capturedImage;
 
-#pragma mark - Managing the detail item
+#pragma mark - Managing the imageview
 
-- (void)setDetailItem:(id)newDetailItem
-{
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        
-        // Update the view.
-        [self configureView];
-    }
-}
 
 - (void)configureView
 {
     // Update the user interface for the detail item.
-
-    //if (self.detailItem) {
-    //    self.detailDescriptionLabel.text = [self.detailItem description];
-    //}
     
-    self.detailDescriptionLabel.text = @"Test test test";
+    self.capturedImageView.image = self.capturedImage;
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,6 +40,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    NSLog(@"All done");
 }
 
 - (void)viewDidUnload
@@ -88,4 +76,5 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
+#pragma mark Face Detection Methods
 @end

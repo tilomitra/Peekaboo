@@ -37,7 +37,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize focusModeLabel;
 @synthesize videoPreviewView;
 @synthesize captureVideoPreviewLayer;
-
+@synthesize capturedImage;
+@synthesize data;
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
@@ -63,11 +64,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
-    //self.navigationItem.rightBarButtonItem = addButton;
+    self.navigationItem.rightBarButtonItem = [self cameraToggleButton];
     
-    [[self cameraToggleButton] setTitle:NSLocalizedString(@"Camera", @"Toggle camera button title")];
-    [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
-    [[self stillButton] setTitle:NSLocalizedString(@"Photo", @"Capture still image button title")];
+    //[[self cameraToggleButton] setTitle:NSLocalizedString(@"Camera", @"Toggle camera button title")];
+    //[[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
+    //[[self stillButton] setTitle:NSLocalizedString(@"Photo", @"Capture still image button title")];
     
     
 	if ([self captureManager] == nil) {
@@ -159,7 +160,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    //return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return NO;
 }
 
 
@@ -204,10 +206,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [[self captureManager] continuousFocusAtPoint:CGPointMake(.5f, .5f)];
 }
 
-- (IBAction)navigateToDetailView:(id)sender {
-    [self performSegueWithIdentifier:@"testSegue" sender:sender];
-}
-
 - (IBAction)toggleRecording:(id)sender
 {
     // Start recording if there isn't a recording running. Stop recording if there is.
@@ -238,8 +236,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                      }
      ];
     
-    
-    
 }
 
 
@@ -249,6 +245,21 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 }
 
+
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    /*
+     When a row is selected, the segue creates the detail view controller as the destination.
+     Set the detail view controller's detail item to the item associated with the selected row.
+     */
+    if ([[segue identifier] isEqualToString:@"testSegue"]) {
+        
+        PKDetailViewController *detailVC = [segue destinationViewController];
+        [detailVC setCapturedImage:[self capturedImage]];
+    }
+}
 
 @end
 
@@ -407,7 +418,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager
 {
-    //[self showFaceDetectionViewWithImage:[self.captureManager lastCapturedImage]];
+    [self setCapturedImage:[self.captureManager lastCapturedImage]];
+    [self performSegueWithIdentifier:@"testSegue" sender:nil];
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         [[self stillButton] setEnabled:YES];
     });

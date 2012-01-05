@@ -48,7 +48,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "Parse/Parse.h"
-
+#import "ASIHTTPRequest.h"
 
 @class AVCamRecorder;
 @protocol AVCamCaptureManagerDelegate;

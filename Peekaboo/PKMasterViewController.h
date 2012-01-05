@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
+
 
 @class AVCamCaptureManager, AVCamPreviewView, AVCaptureVideoPreviewLayer, PKDetailViewController;
 
-#import <CoreData/CoreData.h>
 
 @interface PKMasterViewController : UIViewController <UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate>
 
@@ -29,8 +30,14 @@
 @property (nonatomic,retain) IBOutlet UIBarButtonItem *stillButton;
 @property (nonatomic,retain) IBOutlet UILabel *focusModeLabel;
 
-- (IBAction)navigateToDetailView:(id)sender;
+@property (nonatomic, retain) UIImage *capturedImage;
+@property (nonatomic, retain) NSArray *data;
+
+
 - (IBAction)toggleRecording:(id)sender;
 - (IBAction)captureStillImage:(id)sender;
 - (IBAction)toggleCamera:(id)sender;
+
+- (void)navigateToDetailViewWithImage:(UIImage *)image;
+
 @end

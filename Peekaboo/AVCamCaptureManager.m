@@ -135,12 +135,13 @@
 			}			
         };
         
+        
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [self setDeviceConnectedObserver:[notificationCenter addObserverForName:AVCaptureDeviceWasConnectedNotification object:nil queue:nil usingBlock:deviceConnectedBlock]];
         [self setDeviceDisconnectedObserver:[notificationCenter addObserverForName:AVCaptureDeviceWasDisconnectedNotification object:nil queue:nil usingBlock:deviceDisconnectedBlock]];
 		[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 		[notificationCenter addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
-		orientation = AVCaptureVideoOrientationPortrait;
+        [self setOrientation:AVCaptureVideoOrientationPortrait];
     }
     
     return self;
@@ -276,29 +277,58 @@
 															 
      if (imageDataSampleBuffer != NULL) {
          NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-         ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+         //ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
          
          UIImage *image = [[UIImage alloc] initWithData:imageData];
-         lastCapturedImage = [[UIImage alloc] initWithData:imageData];
+         
+         //lastCapturedImage = [[UIImage alloc] initWithData:imageData];
+         //NSData *data = UIImagePNGRepresentation(image);
+         //UIImage* tmp = [UIImage imageWithData:data];
+         
          //This code here would save the image to the library, we dont want that.
          
          /*[library writeImageToSavedPhotosAlbum:[image CGImage]
                                    orientation:(ALAssetOrientation)[image imageOrientation]
                                completionBlock:completionBlock];
          */
+                  
+         UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationRight];
          
-         /*
-         PFFile *imageFile = [PFFile fileWithName:@"testimage2.png" data:imageData];
-         [imageFile save];
-        
-         PFObject *userPhoto = [PFObject objectWithClassName:@"CapturedPhoto"];
-         [userPhoto setObject:@"Test Photo" forKey:@"imageName"];
-         [userPhoto setObject:imageFile forKey:@"imageFile"];
-         [userPhoto save];
-         */
-         PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
-         [testObject setObject:@"bar" forKey:@"foo"];
-         [testObject save];
+         lastCapturedImage = rotatedImage;
+         NSLog(@"width: %f", rotatedImage.size.width);
+         NSLog(@"height: %f", rotatedImage.size.height);
+         NSData *rotatedImageData = UIImageJPEGRepresentation(rotatedImage, 1.0);
+         
+         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+         [dateFormatter setDateFormat:@"yyyy-MM-dd_HH-mm-ss"];
+         NSString *imageName = [NSString stringWithFormat:@"%@.jpg", [dateFormatter stringFromDate:[NSDate date]]];
+         NSString *userName = @"TiloMitra";
+         
+         PFFile *imageFile = [PFFile fileWithName:imageName data:rotatedImageData];
+         
+         
+         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+             PFObject *userPhoto = [PFObject objectWithClassName:@"CapturedPhoto"];
+             
+             //setting properties:
+             [userPhoto setObject:userName forKey:@"userName"];
+             [userPhoto setObject:imageFile forKey:@"imageFile"];
+             [userPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                 
+                 //save id in local db
+                 if (succeeded) {
+                     NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/addCapturedImage/%@/%@", userPhoto.objectId, imageName];
+                     NSLog(@"Url for saving to db: %@", urlString);
+                     NSURL *url = [NSURL URLWithString:urlString];
+                     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+                     [request setDelegate:self];
+                     [request startAsynchronous];
+                 }
+             }];
+         }];
+         
+         
+                  
      }
      else
          completionBlock(nil, error);
@@ -308,6 +338,22 @@
      }
                                                          }];
 }
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    // Use when fetching text data
+    NSString *responseString = [request responseString];
+    NSLog(@"%@", responseString);
+    // Use when fetching binary data
+    //NSData *responseData = [request responseData];
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    NSLog(@"Error when saving to local database: %@", error);
+}
+
 
 // Toggle between the front and back camera, if both are present.
 - (BOOL) toggleCamera
@@ -406,22 +452,42 @@ bail:
 @implementation AVCamCaptureManager (InternalUtilityMethods)
 
 // Keep track of current device orientation so it can be applied to movie recordings and still image captures
-- (void)deviceOrientationDidChange
-{	
-	UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+- (void)deviceOrientationDidChange{
     
-	if (deviceOrientation == UIDeviceOrientationPortrait)
-		orientation = AVCaptureVideoOrientationPortrait;
-	else if (deviceOrientation == UIDeviceOrientationPortraitUpsideDown)
-		orientation = AVCaptureVideoOrientationPortraitUpsideDown;
-	
-	// AVCapture and UIDevice have opposite meanings for landscape left and right (AVCapture orientation is the same as UIInterfaceOrientation)
-	else if (deviceOrientation == UIDeviceOrientationLandscapeLeft)
-		orientation = AVCaptureVideoOrientationLandscapeRight;
-	else if (deviceOrientation == UIDeviceOrientationLandscapeRight)
-		orientation = AVCaptureVideoOrientationLandscapeLeft;
-	
-	// Ignore device orientations for which there is no corresponding still image orientation (e.g. UIDeviceOrientationFaceUp)
+    UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+    
+    AVCaptureVideoOrientation newOrientation;
+    
+    if (deviceOrientation == UIDeviceOrientationPortrait){
+        NSLog(@"deviceOrientationDidChange - Portrait");
+        newOrientation = AVCaptureVideoOrientationPortrait;
+    }
+    else if (deviceOrientation == UIDeviceOrientationPortraitUpsideDown){
+        NSLog(@"deviceOrientationDidChange - UpsideDown");
+        newOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+    }
+    
+    // AVCapture and UIDevice have opposite meanings for landscape left and right (AVCapture orientation is the same as UIInterfaceOrientation)
+    else if (deviceOrientation == UIDeviceOrientationLandscapeLeft){
+        NSLog(@"deviceOrientationDidChange - LandscapeLeft");
+        newOrientation = AVCaptureVideoOrientationLandscapeRight;
+    }
+    else if (deviceOrientation == UIDeviceOrientationLandscapeRight){
+        NSLog(@"deviceOrientationDidChange - LandscapeRight");
+        newOrientation = AVCaptureVideoOrientationLandscapeLeft;
+    }
+    
+    else if (deviceOrientation == UIDeviceOrientationUnknown){
+        NSLog(@"deviceOrientationDidChange - Unknown ");
+        newOrientation = AVCaptureVideoOrientationPortrait;
+    }
+    
+    else{
+        NSLog(@"deviceOrientationDidChange - Face Up or Down");
+        newOrientation = AVCaptureVideoOrientationPortrait;
+    }
+    
+    [self setOrientation:newOrientation];
 }
 
 // Find a camera with the specificed AVCaptureDevicePosition, returning nil if one is not found
