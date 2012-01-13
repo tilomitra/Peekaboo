@@ -10,6 +10,7 @@
 #import "PKDetailViewController.h"
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
+#import "SVProgressHUD.h"
 #import <AVFoundation/AVFoundation.h>
 
 static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
@@ -39,6 +40,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize captureVideoPreviewLayer;
 @synthesize capturedImage;
 @synthesize data;
+@synthesize retrievedFacesObject;
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
@@ -145,6 +147,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    //[SVProgressHUD showWithStatus:@"Take Picture in Landscape Mode" maskType:SVProgressHUDMaskTypeGradient];
+    //[SVProgressHUD dismissWithSuccess:@"endNotice" afterDelay:1.0];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -160,8 +165,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    //return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    return NO;
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    //return NO;
 }
 
 
@@ -221,7 +226,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     // Capture a still image
     [[self stillButton] setEnabled:NO];
     [[self captureManager] captureStillImage];
-    //[[TKAlertCenter defaultCenter] postAlertWithMessage:@"Processing Image..."];
     // Flash the screen white and fade it out to give UI feedback that a still image was taken
     UIView *flashView = [[UIView alloc] initWithFrame:[[self videoPreviewView] frame]];
     [flashView setBackgroundColor:[UIColor whiteColor]];
@@ -235,6 +239,9 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                          [flashView removeFromSuperview];
                      }
      ];
+    
+    [SVProgressHUD showWithStatus:@"Detecting Faces" maskType:SVProgressHUDMaskTypeGradient];
+    
     
 }
 
@@ -258,6 +265,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         
         PKDetailViewController *detailVC = [segue destinationViewController];
         [detailVC setCapturedImage:[self capturedImage]];
+        [detailVC setRetrievedFacesObject:[self retrievedFacesObject]];
+        
     }
 }
 
@@ -419,6 +428,18 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager
 {
     [self setCapturedImage:[self.captureManager lastCapturedImage]];
+    //[self performSegueWithIdentifier:@"testSegue" sender:nil];
+    CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
+        [[self stillButton] setEnabled:YES];
+    });
+    
+    
+}
+
+- (void)captureManagerFacesDetected:(AVCamCaptureManager *)captureManager
+{
+    [self setRetrievedFacesObject:[self.captureManager facePhotosObject]];
+    [SVProgressHUD showSuccessWithStatus:@"Done all the work!"];
     [self performSegueWithIdentifier:@"testSegue" sender:nil];
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
         [[self stillButton] setEnabled:YES];

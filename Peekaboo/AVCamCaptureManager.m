@@ -48,6 +48,9 @@
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
 #import "AVCamUtilities.h"
+#import "SVProgressHUD.h"
+#import "UIImage+ProportionalFill.h"
+#import "SBJson.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <ImageIO/CGImageProperties.h>
@@ -82,6 +85,7 @@
 @synthesize backgroundRecordingID;
 @synthesize delegate;
 @synthesize lastCapturedImage;
+@synthesize facePhotosObject;
 - (id) init
 {
     self = [super init];
@@ -292,39 +296,60 @@
                                completionBlock:completionBlock];
          */
                   
-         UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationRight];
+         //UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationUp];
          
-         lastCapturedImage = rotatedImage;
-         NSLog(@"width: %f", rotatedImage.size.width);
-         NSLog(@"height: %f", rotatedImage.size.height);
-         NSData *rotatedImageData = UIImageJPEGRepresentation(rotatedImage, 1.0);
+         lastCapturedImage = image;
+         
+         CGSize smallSize = CGSizeMake(image.size.width/4.0, image.size.height/4.0);
+         
+         UIImage *scaledImage = [image scaledToSize:smallSize];
+         
+         
+         NSLog(@"width: %f", image.size.width);
+         NSLog(@"height: %f", image.size.height);
+         
+         NSLog(@"scaled width: %f", scaledImage.size.width);
+         NSLog(@"scaled height: %f", scaledImage.size.height);
+         
+         NSData *scaledImageData = UIImageJPEGRepresentation(scaledImage, 0);
          
          NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
          [dateFormatter setDateFormat:@"yyyy-MM-dd_HH-mm-ss"];
          NSString *imageName = [NSString stringWithFormat:@"%@.jpg", [dateFormatter stringFromDate:[NSDate date]]];
          NSString *userName = @"TiloMitra";
          
-         PFFile *imageFile = [PFFile fileWithName:imageName data:rotatedImageData];
-         
+         PFFile *imageFile = [PFFile fileWithName:imageName data:scaledImageData];
          
          [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-             PFObject *userPhoto = [PFObject objectWithClassName:@"CapturedPhoto"];
              
-             //setting properties:
-             [userPhoto setObject:userName forKey:@"userName"];
-             [userPhoto setObject:imageFile forKey:@"imageFile"];
-             [userPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+             if (succeeded) {
+                 PFObject *userPhoto = [PFObject objectWithClassName:@"CapturedPhoto"];
                  
-                 //save id in local db
-                 if (succeeded) {
-                     NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/addCapturedImage/%@/%@", userPhoto.objectId, imageName];
-                     NSLog(@"Url for saving to db: %@", urlString);
-                     NSURL *url = [NSURL URLWithString:urlString];
-                     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-                     [request setDelegate:self];
-                     [request startAsynchronous];
-                 }
-             }];
+                 //setting properties:
+                 [userPhoto setObject:userName forKey:@"userName"];
+                 [userPhoto setObject:imageFile forKey:@"imageFile"];
+                 [userPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                     
+                     //save id in local db
+                     if (succeeded) {
+                         NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/addCapturedImage/%@/%@", userPhoto.objectId, imageName];
+                         NSLog(@"Url for saving to db: %@", urlString);
+                         NSURL *url = [NSURL URLWithString:urlString];
+                         ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+                         [request setDelegate:self];
+                         [request startAsynchronous];
+                     }
+                     
+                     else {
+                         NSLog(@"Error when saving PFObject userPhoto");
+                     }
+                 }];
+             }
+             
+             else {
+                 NSLog(@"Error when saving PFFile - %@", error);
+             }
+
          }];
          
          
@@ -336,18 +361,37 @@
      if ([[self delegate] respondsToSelector:@selector(captureManagerStillImageCaptured:)]) {
          [[self delegate] captureManagerStillImageCaptured:self];
      }
-                                                         }];
+                                                        
+                                                             
+                                                        
+    }];
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     // Use when fetching text data
     NSString *responseString = [request responseString];
-    NSLog(@"%@", responseString);
+    //NSLog(@"%@", responseString);
     // Use when fetching binary data
     //NSData *responseData = [request responseData];
-}
+    
+    [SVProgressHUD dismiss];
+    
+    // Create SBJSON object to parse JSON
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    // parse the JSON string into an object - assuming json_string is a NSString of JSON data
+    NSDictionary *responseObj = [parser objectWithString:responseString error:nil];
+    NSArray *photosArray = (NSArray *)[[responseObj objectForKey:@"data"] objectForKey:@"photos"];
+    [self setFacePhotosObject:(NSDictionary *)[photosArray objectAtIndex:0]];
+    NSLog(@"PHOTOS: %@", self.facePhotosObject);
+    
+    if ([[self delegate] respondsToSelector:@selector(captureManagerFacesDetected:)]) {
+        [[self delegate] captureManagerFacesDetected:self];
+    }
 
+    
+    
+}
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];

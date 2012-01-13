@@ -32,7 +32,7 @@
 
 @property (nonatomic, retain) UIImage *capturedImage;
 @property (nonatomic, retain) NSArray *data;
-
+@property (nonatomic, retain) NSDictionary *retrievedFacesObject;
 
 - (IBAction)toggleRecording:(id)sender;
 - (IBAction)captureStillImage:(id)sender;

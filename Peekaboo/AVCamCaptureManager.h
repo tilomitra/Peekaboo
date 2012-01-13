@@ -68,6 +68,8 @@
 @property (nonatomic,assign) id <AVCamCaptureManagerDelegate> delegate;
 @property (nonatomic, retain) UIImage *lastCapturedImage;
 
+@property (nonatomic, retain) NSDictionary *facePhotosObject;
+
 - (BOOL) setupSession;
 - (void) startRecording;
 - (void) stopRecording;
@@ -89,4 +91,5 @@
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager;
 - (void) captureManagerStillImageCaptured:(AVCamCaptureManager *)captureManager;
 - (void) captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager;
+- (void)captureManagerFacesDetected:(AVCamCaptureManager *)captureManager;
 @end
