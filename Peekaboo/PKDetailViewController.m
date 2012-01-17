@@ -8,11 +8,8 @@
 
 #import "PKDetailViewController.h"
 #import "SVProgressHUD.h"
+#import "PersonViewController.h"
 
-@interface PKDetailViewController ()
-- (void)configureView;
-- (void)configureFaceLabelWith:(int)numberOfFaces;
-@end
 
 @implementation PKDetailViewController
 
@@ -30,9 +27,19 @@
     // Update the user interface for the detail item.
     
     self.capturedImageView.image = self.capturedImage;
-    [self.capturedImageView.layer setCornerRadius:3.0f];
-    self.capturedImageView.layer.borderWidth = 1.0;
-    [self.capturedImageView.layer setBorderColor:[UIColor grayColor].CGColor];
+    [self.capturedImageView.layer setCornerRadius:5.0f];
+    
+    [facesLabel.layer setCornerRadius:5.0f];
+    [facesSubTextLabel.layer setCornerRadius:5.0f];
+    
+    facesLabel.layer.borderWidth = 1.0f;
+    facesSubTextLabel.layer.borderWidth = 1.0f;
+
+    facesLabel.layer.borderColor = [UIColor blackColor].CGColor;
+    facesSubTextLabel.layer.borderColor = [UIColor blackColor].CGColor;
+
+//    self.capturedImageView.layer.borderWidth = 1.0;
+//    [self.capturedImageView.layer setBorderColor:[UIColor grayColor].CGColor];
     
     
 }
@@ -61,23 +68,34 @@
         CGFloat width = ([[tag objectForKey:@"width"] floatValue] * capturedImageView.frame.size.width) / 100;
         CGFloat height = ([[tag objectForKey:@"height"] floatValue] * capturedImageView.frame.size.height) / 100;
         CGFloat x = ([[(NSDictionary *)[tag objectForKey:@"center"] objectForKey:@"x"] floatValue] * capturedImageView.frame.size.width) / 100;
-        CGFloat y = ([[(NSDictionary *)[tag objectForKey:@"center"] objectForKey:@"y"] floatValue] * capturedImageView.frame.size.height) / 100;
+        CGFloat y = ([[(NSDictionary *)[tag objectForKey:@"center"] objectForKey:@"y"] floatValue] * capturedImageView.frame.size.height) / 110; //was /100 before, this is a hack to get images to be vertically aligned properly on someones face.
         
-        CGFloat roll = [[tag objectForKey:@"roll"] floatValue];
+        //CGFloat roll = [[tag objectForKey:@"roll"] floatValue];
         
-        UIView *square = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        //UIButton *square = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+
+        UIButton *square = [UIButton buttonWithType:UIButtonTypeCustom];
+        square.frame = CGRectMake(0, 0, width, height);
         square.backgroundColor = [UIColor clearColor];
-        square.layer.borderWidth = 2.0;
+        square.layer.borderWidth = 3.0;
         [square.layer setCornerRadius:5.0f];
         [square.layer setBorderColor:[UIColor whiteColor].CGColor];
         square.layer.shadowColor = [UIColor cyanColor].CGColor;
-        square.layer.shadowRadius = 2;
-        square.layer.shadowOpacity = .2;
+        square.layer.shadowRadius = 3;
+        square.layer.shadowOpacity = .7;
         square.layer.shadowOffset = CGSizeMake(0, 1);
         square.center = CGPointMake(x, y);
+        
+        
         //[square setTransform:CGAffineTransformMakeRotation([self DegreesToRadians:roll])];
         
-        [capturedImageView addSubview:square];
+        //This shit here is important - it makes the square clickable. I had to spend a good 1hr figuring this out. 
+        square.userInteractionEnabled = YES;
+        [square addTarget:self action:@selector(faceTouchUpInside:) forControlEvents:(UIControlEvents)UIControlEventTouchDown];
+        
+        //make sure the square is added as a child to the VIEW instead of the imageView. Otherwise, the imageview will capture all the touch events
+        [self.view addSubview:square];
+        [self.view bringSubviewToFront:square];
         
         CABasicAnimation *theAnimation;
         
@@ -88,8 +106,27 @@
         theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
         theAnimation.toValue=[NSNumber numberWithFloat:0.0];
         [square.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+        
+
     }
     
+}
+
+- (void)faceTouchUpInside:(id)sender {
+    NSLog(@"Touch Up Inside Performed");
+    [self performSegueWithIdentifier:@"showPersonViewSegue" sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    /*
+     When a row is selected, the segue creates the detail view controller as the destination.
+     Set the detail view controller's detail item to the item associated with the selected row.
+     */
+    if ([[segue identifier] isEqualToString:@"showPersonViewSegue"]) {
+        
+        PersonViewController *personVC  = segue.destinationViewController;      
+    }
 }
 
 - (void)configureFaceLabelWith:(int)numberOfFaces {

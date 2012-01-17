@@ -32,6 +32,12 @@
 		394AE4BC14B6541100A1367D /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 394AE4A314B6541000A1367D /* SBJsonTokeniser.m */; };
 		394AE4BD14B6541100A1367D /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 394AE4A414B6541000A1367D /* SBJsonUTF8Stream.m */; };
 		394AE4BE14B6541100A1367D /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 394AE4A514B6541000A1367D /* SBJsonWriter.m */; };
+		394F69C614C253BF0034603D /* PersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 394F69C514C253BF0034603D /* PersonViewController.m */; };
+		39CE6A0914C3F5090073415A /* topbar32.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CE6A0714C3F5090073415A /* topbar32.png */; };
+		39CE6A0D14C3F5580073415A /* topbar44.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CE6A0C14C3F5580073415A /* topbar44.png */; };
+		39CE6A0F14C3F7460073415A /* topbar44_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CE6A0E14C3F7460073415A /* topbar44_2.png */; };
+		39CE6A1114C3F87A0073415A /* topbar44_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CE6A1014C3F87A0073415A /* topbar44_3.png */; };
+		39CE6A1314C3FE910073415A /* profileBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CE6A1214C3FE910073415A /* profileBackground.png */; };
 		39E456B214BCDBFC00123C1A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E456B114BCDBFC00123C1A /* Parse.framework */; };
 		39E6654B14B130D100B5A1A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654A14B130D100B5A1A3 /* UIKit.framework */; };
 		39E6654D14B130D100B5A1A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E6654C14B130D100B5A1A3 /* Foundation.framework */; };
@@ -133,6 +139,13 @@
 		394AE4B014B6541000A1367D /* SBJsonTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonTokeniser.h; sourceTree = "<group>"; };
 		394AE4B114B6541000A1367D /* SBJsonUTF8Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonUTF8Stream.h; sourceTree = "<group>"; };
 		394AE4B214B6541000A1367D /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		394F69C414C253BF0034603D /* PersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonViewController.h; sourceTree = "<group>"; };
+		394F69C514C253BF0034603D /* PersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonViewController.m; sourceTree = "<group>"; };
+		39CE6A0714C3F5090073415A /* topbar32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topbar32.png; sourceTree = "<group>"; };
+		39CE6A0C14C3F5580073415A /* topbar44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topbar44.png; sourceTree = "<group>"; };
+		39CE6A0E14C3F7460073415A /* topbar44_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topbar44_2.png; sourceTree = "<group>"; };
+		39CE6A1014C3F87A0073415A /* topbar44_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topbar44_3.png; sourceTree = "<group>"; };
+		39CE6A1214C3FE910073415A /* profileBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profileBackground.png; sourceTree = "<group>"; };
 		39E456B114BCDBFC00123C1A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		39E6654614B130D100B5A1A3 /* Peekaboo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peekaboo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E6654A14B130D100B5A1A3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -360,6 +373,8 @@
 				39E6656314B130D100B5A1A3 /* PKMasterViewController.m */,
 				39E6656514B130D100B5A1A3 /* PKDetailViewController.h */,
 				39E6656614B130D100B5A1A3 /* PKDetailViewController.m */,
+				394F69C414C253BF0034603D /* PersonViewController.h */,
+				394F69C514C253BF0034603D /* PersonViewController.m */,
 				39E6655F14B130D100B5A1A3 /* Peekaboo.xcdatamodeld */,
 				39E6655114B130D100B5A1A3 /* Supporting Files */,
 			);
@@ -369,6 +384,11 @@
 		39E6655114B130D100B5A1A3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				39CE6A1214C3FE910073415A /* profileBackground.png */,
+				39CE6A1014C3F87A0073415A /* topbar44_3.png */,
+				39CE6A0E14C3F7460073415A /* topbar44_2.png */,
+				39CE6A0714C3F5090073415A /* topbar32.png */,
+				39CE6A0C14C3F5580073415A /* topbar44.png */,
 				39E6655214B130D100B5A1A3 /* Peekaboo-Info.plist */,
 				39E6655314B130D100B5A1A3 /* InfoPlist.strings */,
 				39E6655614B130D100B5A1A3 /* main.m */,
@@ -483,6 +503,11 @@
 				39E6655514B130D100B5A1A3 /* InfoPlist.strings in Resources */,
 				39E6655E14B130D100B5A1A3 /* MainStoryboard.storyboard in Resources */,
 				394AE48714B63E9800A1367D /* SVProgressHUD.bundle in Resources */,
+				39CE6A0914C3F5090073415A /* topbar32.png in Resources */,
+				39CE6A0D14C3F5580073415A /* topbar44.png in Resources */,
+				39CE6A0F14C3F7460073415A /* topbar44_2.png in Resources */,
+				39CE6A1114C3F87A0073415A /* topbar44_3.png in Resources */,
+				39CE6A1314C3FE910073415A /* profileBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +574,7 @@
 				394AE4BC14B6541100A1367D /* SBJsonTokeniser.m in Sources */,
 				394AE4BD14B6541100A1367D /* SBJsonUTF8Stream.m in Sources */,
 				394AE4BE14B6541100A1367D /* SBJsonWriter.m in Sources */,
+				394F69C614C253BF0034603D /* PersonViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

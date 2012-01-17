@@ -19,5 +19,7 @@
 
 
 - (void)drawFaces:(NSArray *)tags;
-
+- (void)faceTouchUpInside:(id)sender;
+- (void)configureView;
+- (void)configureFaceLabelWith:(int)numberOfFaces;
 @end

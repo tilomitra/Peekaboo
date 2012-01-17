@@ -66,7 +66,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
-    self.navigationItem.rightBarButtonItem = [self cameraToggleButton];
+    //self.navigationItem.rightBarButtonItem = [self cameraToggleButton];
     
     //[[self cameraToggleButton] setTitle:NSLocalizedString(@"Camera", @"Toggle camera button title")];
     //[[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];

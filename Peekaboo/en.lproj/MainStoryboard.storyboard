@@ -9,9 +9,10 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
                 <navigationController id="3" sceneMemberID="viewController">
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.42883831519999999" green="0.0092838146699999995" blue="0.080436837499999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.23443190314143578" green="0.26452942653542993" blue="0.28350207270408168" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="sch-kV-Euo" kind="relationship" relationship="rootViewController" id="wc8-y4-HjK"/>
@@ -28,12 +29,12 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleAspectFit" id="z8b-Ro-pzx">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="420"/>
+                            <view contentMode="scaleToFill" id="z8b-Ro-pzx">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="NFg-ub-J46">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="NFg-ub-J46">
                                 <rect key="frame" x="0.0" y="372" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="0.13943007739999999" green="0.1877887691" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
@@ -45,8 +46,8 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem systemItem="flexibleSpace" id="7af-ZG-q0l"/>
-                                    <barButtonItem title="Photo" width="55" id="DrX-0A-oOb">
-                                        <color key="tintColor" red="0.1857804008" green="0.1857804008" blue="0.1857804008" alpha="1" colorSpace="calibratedRGB"/>
+                                    <barButtonItem style="done" systemItem="camera" id="DrX-0A-oOb">
+                                        <color key="tintColor" red="0.0" green="0.87058056635957826" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="captureStillImage:" destination="sch-kV-Euo" id="qLj-Ue-sTg"/>
                                         </connections>
@@ -61,7 +62,6 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="L3Q-Mn-iEw"/>
                                 </items>
-                                <color key="tintColor" red="0.32294497282608692" green="0.32294497282608692" blue="0.32294497282608692" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -87,26 +87,26 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.99999999999999989" contentMode="left" text="No Faces Detected." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="kw3-Sh-GNY">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.79999999999999993" contentMode="left" text="No Faces Detected." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="kw3-Sh-GNY">
                                 <rect key="frame" x="54" y="350" width="213" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.051672894021739135" green="0.051672894021739135" blue="0.051672894021739135" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.068363724955571581" green="0.070930071526200331" blue="0.073666779891304324" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="shadowColor" red="0.15667459239130432" green="0.15667459239130432" blue="0.15667459239130432" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.99999999999999989" contentMode="left" text="Select a person by tapping on them" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="fXL-sO-vsv">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.79999999999999993" contentMode="left" text="Select a person by tapping on them" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="fXL-sO-vsv">
                                 <rect key="frame" x="54" y="382" width="213" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.051672894021739135" green="0.051672894021739135" blue="0.051672894021739135" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.068363724955571581" green="0.070930071526200331" blue="0.073666779891304324" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="shadowColor" red="0.15667459239130432" green="0.15667459239130432" blue="0.15667459239130432" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="NoK-Ih-XCz">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="420"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="NoK-Ih-XCz">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.90992272418478259" green="0.90992272418478259" blue="0.90992272418478259" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
@@ -119,12 +119,56 @@
                         <outlet property="facesLabel" destination="kw3-Sh-GNY" id="A1T-7W-t1I"/>
                         <outlet property="facesSubTextLabel" destination="fXL-sO-vsv" id="AVX-cr-kZH"/>
                         <outlet property="view" destination="22" id="XXt-m6-nYI"/>
+                        <segue destination="CXS-Ki-nrA" kind="push" identifier="showPersonViewSegue" id="vS2-gm-hyb"/>
                     </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="902" y="64"/>
         </scene>
+        <scene sceneID="22q-ek-MrJ">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BbE-HE-o6R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="CXS-Ki-nrA" customClass="PersonViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UNd-iO-cqI">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="yCp-Gw-rhd">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="profileBackground.png" id="PH3-nL-LE9">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Firstname Lastname" lineBreakMode="tailTruncation" minimumFontSize="10" id="Adc-wf-Dv5">
+                                        <rect key="frame" x="20" y="99" width="196" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="University of Waterloo" lineBreakMode="tailTruncation" minimumFontSize="10" id="Vbt-Mp-epP">
+                                        <rect key="frame" x="20" y="130" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1331" y="66"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="profileBackground.png" width="640" height="832"/>
+    </resources>
     <classes>
         <class className="PKDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PKDetailViewController.h"/>
@@ -145,6 +189,12 @@
                 <relationship kind="outlet" name="recordButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="stillButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="videoPreviewView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="PersonViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PersonViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dismissButton" candidateClass="UIButton"/>
             </relationships>
         </class>
     </classes>

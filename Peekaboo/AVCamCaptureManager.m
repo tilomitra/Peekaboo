@@ -198,6 +198,7 @@
     
     // Create session (use default AVCaptureSessionPresetHigh)
     AVCaptureSession *newCaptureSession = [[AVCaptureSession alloc] init];
+    newCaptureSession.sessionPreset = AVCaptureSessionPresetPhoto;
     
     
     // Add inputs and output to the capture session
@@ -300,7 +301,7 @@
          
          lastCapturedImage = image;
          
-         CGSize smallSize = CGSizeMake(image.size.width/4.0, image.size.height/4.0);
+         CGSize smallSize = CGSizeMake(image.size.width/6.0, image.size.height/6.0);
          
          UIImage *scaledImage = [image scaledToSize:smallSize];
          
@@ -396,6 +397,7 @@
 {
     NSError *error = [request error];
     NSLog(@"Error when saving to local database: %@", error);
+    [SVProgressHUD dismissWithError:@"Error when saving to database."];
 }
 
 

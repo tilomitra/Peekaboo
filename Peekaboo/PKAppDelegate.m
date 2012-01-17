@@ -33,7 +33,16 @@
     //[navigationController popToViewController:controller animated:YES];
     //[self.window makeKeyAndVisible];
     
-    
+    // Create resizable images
+//    UIImage *gradientImage44 = [[UIImage imageNamed:@"topbar44_3"] 
+//                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+//    UIImage *gradientImage32 = [[UIImage imageNamed:@"topbar32"] 
+//                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+//    // Set the background image for *all* UINavigationBars
+//    [[UINavigationBar appearance] setBackgroundImage:gradientImage44 
+//                                       forBarMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setBackgroundImage:gradientImage32 
+//                                       forBarMetrics:UIBarMetricsLandscapePhone];
     
     return YES;
 }
