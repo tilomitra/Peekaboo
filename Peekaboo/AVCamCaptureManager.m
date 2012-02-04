@@ -1,7 +1,7 @@
 /*
-     File: AVCamCaptureManager.m
+ File: AVCamCaptureManager.m
  Abstract: Uses the AVCapture classes to capture video and still images.
-  Version: 1.2
+ Version: 1.2
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -48,12 +48,13 @@
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
 #import "AVCamUtilities.h"
-#import "SVProgressHUD.h"
-#import "UIImage+ProportionalFill.h"
-#import "SBJson.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <ImageIO/CGImageProperties.h>
+#import "SBJson.h"
+#import "SVProgressHUD.h"
+#import "UIImage+Tint.h"
+#import "UIImage+ProportionalFill.h"
 
 @interface AVCamCaptureManager (RecorderDelegate) <AVCamRecorderDelegate>
 @end
@@ -86,6 +87,7 @@
 @synthesize delegate;
 @synthesize lastCapturedImage;
 @synthesize facePhotosObject;
+
 - (id) init
 {
     self = [super init];
@@ -139,13 +141,12 @@
 			}			
         };
         
-        
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [self setDeviceConnectedObserver:[notificationCenter addObserverForName:AVCaptureDeviceWasConnectedNotification object:nil queue:nil usingBlock:deviceConnectedBlock]];
         [self setDeviceDisconnectedObserver:[notificationCenter addObserverForName:AVCaptureDeviceWasDisconnectedNotification object:nil queue:nil usingBlock:deviceDisconnectedBlock]];
 		[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 		[notificationCenter addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
-        [self setOrientation:AVCaptureVideoOrientationPortrait];
+		orientation = AVCaptureVideoOrientationPortrait;
     }
     
     return self;
@@ -159,6 +160,14 @@
 	[notificationCenter removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 	[[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     
+    [[self session] stopRunning];
+    [session release];
+    [videoInput release];
+    [audioInput release];
+    [stillImageOutput release];
+    [recorder release];
+    
+    [super dealloc];
 }
 
 - (BOOL) setupSession
@@ -194,12 +203,13 @@
                                     AVVideoCodecJPEG, AVVideoCodecKey,
                                     nil];
     [newStillImageOutput setOutputSettings:outputSettings];
+    [outputSettings release];
     
     
     // Create session (use default AVCaptureSessionPresetHigh)
     AVCaptureSession *newCaptureSession = [[AVCaptureSession alloc] init];
-    newCaptureSession.sessionPreset = AVCaptureSessionPresetPhoto;
     
+    newCaptureSession.sessionPreset = AVCaptureSessionPresetPhoto;
     
     // Add inputs and output to the capture session
     if ([newCaptureSession canAddInput:newVideoInput]) {
@@ -216,7 +226,11 @@
     [self setVideoInput:newVideoInput];
     [self setAudioInput:newAudioInput];
     [self setSession:newCaptureSession];
-
+    
+    [newStillImageOutput release];
+    [newVideoInput release];
+    [newAudioInput release];
+    [newCaptureSession release];
     
 	// Set up the movie file output
     NSURL *outputFileURL = [self tempFileURL];
@@ -238,6 +252,7 @@
 	}
 	
 	[self setRecorder:newRecorder];
+    [newRecorder release];
 	
     success = YES;
     
@@ -276,97 +291,106 @@
 																 if (error) {
                                                                      if ([[self delegate] respondsToSelector:@selector(captureManager:didFailWithError:)]) {
                                                                          [[self delegate] captureManager:self didFailWithError:error];
-                                                                         }
+                                                                     }
 																 }
-                                                            };
+                                                             };
 															 
-     if (imageDataSampleBuffer != NULL) {
-         NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-         //ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-         
-         UIImage *image = [[UIImage alloc] initWithData:imageData];
-         
-         //lastCapturedImage = [[UIImage alloc] initWithData:imageData];
-         //NSData *data = UIImagePNGRepresentation(image);
-         //UIImage* tmp = [UIImage imageWithData:data];
-         
-         //This code here would save the image to the library, we dont want that.
-         
-         /*[library writeImageToSavedPhotosAlbum:[image CGImage]
-                                   orientation:(ALAssetOrientation)[image imageOrientation]
-                               completionBlock:completionBlock];
-         */
-                  
-         //UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationUp];
-         
-         lastCapturedImage = image;
-         
-         CGSize smallSize = CGSizeMake(image.size.width/6.0, image.size.height/6.0);
-         
-         UIImage *scaledImage = [image scaledToSize:smallSize];
-         
-         
-         NSLog(@"width: %f", image.size.width);
-         NSLog(@"height: %f", image.size.height);
-         
-         NSLog(@"scaled width: %f", scaledImage.size.width);
-         NSLog(@"scaled height: %f", scaledImage.size.height);
-         
-         NSData *scaledImageData = UIImageJPEGRepresentation(scaledImage, 0);
-         
-         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-         [dateFormatter setDateFormat:@"yyyy-MM-dd_HH-mm-ss"];
-         NSString *imageName = [NSString stringWithFormat:@"%@.jpg", [dateFormatter stringFromDate:[NSDate date]]];
-         NSString *userName = @"TiloMitra";
-         
-         PFFile *imageFile = [PFFile fileWithName:imageName data:scaledImageData];
-         
-         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-             
-             if (succeeded) {
-                 PFObject *userPhoto = [PFObject objectWithClassName:@"CapturedPhoto"];
-                 
-                 //setting properties:
-                 [userPhoto setObject:userName forKey:@"userName"];
-                 [userPhoto setObject:imageFile forKey:@"imageFile"];
-                 [userPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                     
-                     //save id in local db
-                     if (succeeded) {
-                         NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/addCapturedImage/%@/%@", userPhoto.objectId, imageName];
-                         NSLog(@"Url for saving to db: %@", urlString);
-                         NSURL *url = [NSURL URLWithString:urlString];
-                         ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-                         [request setDelegate:self];
-                         [request startAsynchronous];
-                     }
-                     
-                     else {
-                         NSLog(@"Error when saving PFObject userPhoto");
-                     }
-                 }];
-             }
-             
-             else {
-                 NSLog(@"Error when saving PFFile - %@", error);
-             }
-
-         }];
-         
-         
-                  
-     }
-     else
-         completionBlock(nil, error);
-     
-     if ([[self delegate] respondsToSelector:@selector(captureManagerStillImageCaptured:)]) {
-         [[self delegate] captureManagerStillImageCaptured:self];
-     }
-                                                        
+                                                             if (imageDataSampleBuffer != NULL) {
+                                                                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                                                                 //ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+                                                                 
+                                                                 UIImage *image = [[UIImage alloc] initWithData:imageData];
+                                                                 
+                                                                 //lastCapturedImage = [[UIImage alloc] initWithData:imageData];
+                                                                 //NSData *data = UIImagePNGRepresentation(image);
+                                                                 //UIImage* tmp = [UIImage imageWithData:data];
+                                                                 
+                                                                 //This code here would save the image to the library, we dont want that.
+                                                                 
+                                                                 /*[library writeImageToSavedPhotosAlbum:[image CGImage]
+                                                                  orientation:(ALAssetOrientation)[image imageOrientation]
+                                                                  completionBlock:completionBlock];
+                                                                  */
+                                                                 
+                                                                 //UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationUp];
+                                                                 
+                                                                 lastCapturedImage = [[UIImage alloc] initWithData:imageData];
+                                                                 
+                                                                 
+                                                                 CGSize smallSize = CGSizeMake(image.size.width/4.0, image.size.height/4.0);
+                                                                 
+                                                                 UIImage *scaledImage = [image scaledToSize:smallSize];
+                                                                 
+                                                                 
+                                                                 
+                                                                 NSLog(@"width: %f", image.size.width);
+                                                                 NSLog(@"height: %f", image.size.height);
+                                                                                                                                  
+                                                                 NSLog(@"scaled width: %f", scaledImage.size.width);
+                                                                 NSLog(@"scaled height: %f", scaledImage.size.height);
+                                                                 
+                                                                 NSData *scaledImageData = UIImageJPEGRepresentation(scaledImage, 1);
+                                                                 
+                                                                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                                                                 [dateFormatter setDateFormat:@"yyyy-MM-dd_HH-mm-ss"];
+                                                                 NSString *imageName = [NSString stringWithFormat:@"%@.jpg", [dateFormatter stringFromDate:[NSDate date]]];
+                                                                 
+                                                                 NSLog(@"%@", imageName);
+                                                                 
+                                                                 PFFile *imageFile = [PFFile fileWithName:imageName data:scaledImageData];
+                                                                 
+                                                                 [image release];
+                                                                 
+                                                                 [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                                                     
+                                                                     if (succeeded) {
+                                                                         PFObject *userPhoto = [PFObject objectWithClassName:@"CapturedPhoto"];
+                                                                         
+                                                                         //setting properties:
+                                                                         [userPhoto setObject:imageFile forKey:@"imageFile"];
+                                                                         [userPhoto setObject:[NSNull null] forKey:@"hasBeenRecognized"];
+                                                                         [userPhoto setObject:[NSNull null] forKey:@"recognizedAs"];
+                                                                         [userPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                                                             
+                                                                             //save id in local db
+                                                                             if (succeeded) {
+                                                                                 NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/addCapturedImage/%@", userPhoto.objectId];
+                                                                                 
+                                                                                 NSLog(@"Url for saving to db: %@", urlString);
+                                                                                 NSURL *url = [NSURL URLWithString:urlString];
+                                                                                 ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+                                                                                 [request setDelegate:self];
+                                                                                 [request startAsynchronous];
+                                                                             }
+                                                                             
+                                                                             else {
+                                                                                 NSLog(@"Error when saving PFObject userPhoto");
+                                                                             }
+                                                                         }];
+                                                                     }
+                                                                     
+                                                                     else {
+                                                                         NSLog(@"Error when saving PFFile - %@", error);
+                                                                     }
+                                                                     
+                                                                 }];
+                                                                 
+                                                                 
+                                                                 
+                                                             }
+                                                             else
+                                                                 completionBlock(nil, error);
                                                              
-                                                        
-    }];
+                                                             if ([[self delegate] respondsToSelector:@selector(captureManagerStillImageCaptured:)]) {
+                                                                 [[self delegate] captureManagerStillImageCaptured:self];
+                                                             }
+                                                             
+                                                             
+                                                             
+                                                         }];
 }
+
+
 
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
@@ -389,17 +413,16 @@
     if ([[self delegate] respondsToSelector:@selector(captureManagerFacesDetected:)]) {
         [[self delegate] captureManagerFacesDetected:self];
     }
-
     
-    
+    [parser release];
 }
+
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
     NSLog(@"Error when saving to local database: %@", error);
     [SVProgressHUD dismissWithError:@"Error when saving to database."];
 }
-
 
 // Toggle between the front and back camera, if both are present.
 - (BOOL) toggleCamera
@@ -429,6 +452,7 @@
             }
             [[self session] commitConfiguration];
             success = YES;
+            [newVideoInput release];
         } else if (error) {
             if ([[self delegate] respondsToSelector:@selector(captureManager:didFailWithError:)]) {
                 [[self delegate] captureManager:self didFailWithError:error];
@@ -498,42 +522,22 @@ bail:
 @implementation AVCamCaptureManager (InternalUtilityMethods)
 
 // Keep track of current device orientation so it can be applied to movie recordings and still image captures
-- (void)deviceOrientationDidChange{
+- (void)deviceOrientationDidChange
+{	
+	UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
     
-    UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
-    
-    AVCaptureVideoOrientation newOrientation;
-    
-    if (deviceOrientation == UIDeviceOrientationPortrait){
-        NSLog(@"deviceOrientationDidChange - Portrait");
-        newOrientation = AVCaptureVideoOrientationPortrait;
-    }
-    else if (deviceOrientation == UIDeviceOrientationPortraitUpsideDown){
-        NSLog(@"deviceOrientationDidChange - UpsideDown");
-        newOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
-    }
-    
-    // AVCapture and UIDevice have opposite meanings for landscape left and right (AVCapture orientation is the same as UIInterfaceOrientation)
-    else if (deviceOrientation == UIDeviceOrientationLandscapeLeft){
-        NSLog(@"deviceOrientationDidChange - LandscapeLeft");
-        newOrientation = AVCaptureVideoOrientationLandscapeRight;
-    }
-    else if (deviceOrientation == UIDeviceOrientationLandscapeRight){
-        NSLog(@"deviceOrientationDidChange - LandscapeRight");
-        newOrientation = AVCaptureVideoOrientationLandscapeLeft;
-    }
-    
-    else if (deviceOrientation == UIDeviceOrientationUnknown){
-        NSLog(@"deviceOrientationDidChange - Unknown ");
-        newOrientation = AVCaptureVideoOrientationPortrait;
-    }
-    
-    else{
-        NSLog(@"deviceOrientationDidChange - Face Up or Down");
-        newOrientation = AVCaptureVideoOrientationPortrait;
-    }
-    
-    [self setOrientation:newOrientation];
+	if (deviceOrientation == UIDeviceOrientationPortrait)
+		orientation = AVCaptureVideoOrientationPortrait;
+	else if (deviceOrientation == UIDeviceOrientationPortraitUpsideDown)
+		orientation = AVCaptureVideoOrientationPortraitUpsideDown;
+	
+	// AVCapture and UIDevice have opposite meanings for landscape left and right (AVCapture orientation is the same as UIInterfaceOrientation)
+	else if (deviceOrientation == UIDeviceOrientationLandscapeLeft)
+		orientation = AVCaptureVideoOrientationLandscapeRight;
+	else if (deviceOrientation == UIDeviceOrientationLandscapeRight)
+		orientation = AVCaptureVideoOrientationLandscapeLeft;
+	
+	// Ignore device orientations for which there is no corresponding still image orientation (e.g. UIDeviceOrientationFaceUp)
 }
 
 // Find a camera with the specificed AVCaptureDevicePosition, returning nil if one is not found
@@ -595,6 +599,7 @@ bail:
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateFormat:@"yyyy-MM-dd_HH-mm-ss"];
 	NSString *destinationPath = [documentsDirectory stringByAppendingFormat:@"/output_%@.mov", [dateFormatter stringFromDate:[NSDate date]]];
+	[dateFormatter release];
 	NSError	*error;
 	if (![[NSFileManager defaultManager] copyItemAtURL:fileURL toURL:[NSURL fileURLWithPath:destinationPath] error:&error]) {
 		if ([[self delegate] respondsToSelector:@selector(captureManager:didFailWithError:)]) {
@@ -623,11 +628,11 @@ bail:
 		// library. Instead, save it in the app's Documents directory, whence it can be copied from the device via
 		// iTunes file sharing.
 		[self copyFileToDocuments:outputFileURL];
-
+        
 		if ([[UIDevice currentDevice] isMultitaskingSupported]) {
 			[[UIApplication sharedApplication] endBackgroundTask:[self backgroundRecordingID]];
 		}		
-
+        
 		if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:)]) {
 			[[self delegate] captureManagerRecordingFinished:self];
 		}
@@ -650,7 +655,9 @@ bail:
 											[[self delegate] captureManagerRecordingFinished:self];
 										}
 									}];
+		[library release];
 	}
 }
 
 @end
+

@@ -11,7 +11,11 @@
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
 #import "SVProgressHUD.h"
+#import "FBConnect.h"
+#import "PKAppDelegate.h"
+#import "PersonViewController.h"
 #import <AVFoundation/AVFoundation.h>
+
 
 static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 
@@ -44,6 +48,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
+@synthesize toolbar;
 
 - (void)awakeFromNib
 {
@@ -63,14 +68,27 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     // Set up the edit and add buttons.
-    //self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    //remove the connect with facebook back button
 
+    self.navigationItem.leftBarButtonItem = nil;
+    
+    //this adds custom top nav bar
+    
+    /*
+    if ([self.navigationController.navigationBar respondsToSelector:@selector( setBackgroundImage:forBarMetrics:)]){
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"redTopBar.png"] forBarMetrics:UIBarMetricsDefault];
+    }
+     */
+    
+    
     //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
     //self.navigationItem.rightBarButtonItem = [self cameraToggleButton];
     
     //[[self cameraToggleButton] setTitle:NSLocalizedString(@"Camera", @"Toggle camera button title")];
     //[[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
     //[[self stillButton] setTitle:NSLocalizedString(@"Photo", @"Capture still image button title")];
+    
     
     
 	if ([self captureManager] == nil) {
@@ -130,6 +148,11 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 			[view addGestureRecognizer:doubleTap];
 		}		
 	}
+    
+    [toolbar setFrame:CGRectMake(0, 410, 320, 50)];
+    self.navigationItem.hidesBackButton = YES;
+    
+
 }
 
 - (void)viewDidUnload
@@ -268,6 +291,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         [detailVC setRetrievedFacesObject:[self retrievedFacesObject]];
         
     }
+    
+    else if ([[segue identifier] isEqualToString:@"testFacebookPersonSegue"]) {
+        //PersonViewController *personVC = [segue destinationViewController];
+        
+        //set properties on the person view here...
+    }
 }
 
 @end
@@ -391,6 +420,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
             [[self recordButton] setEnabled:YES];
         }
     });
+    
+    [[self view] bringSubviewToFront:stillButton];
 }
 
 @end
@@ -412,7 +443,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManagerRecordingBegan:(AVCamCaptureManager *)captureManager
 {
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        [[self recordButton] setTitle:NSLocalizedString(@"Stop", @"Toggle recording button stop title")];
+        //[[self recordButton] setTitle:NSLocalizedString(@"Stop", @"Toggle recording button stop title")];
         [[self recordButton] setEnabled:YES];
     });
 }
@@ -420,7 +451,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager
 {
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {
-        [[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
+        //[[self recordButton] setTitle:NSLocalizedString(@"Record", @"Toggle recording button record title")];
         [[self recordButton] setEnabled:YES];
     });
 }
@@ -451,6 +482,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManagerDeviceConfigurationChanged:(AVCamCaptureManager *)captureManager
 {
 	[self updateButtonStates];
+}
+
+#pragma mark - Facebook Button Outlet
+
+- (IBAction)loadFacebookPersonView:(id)sender {
+    //[self performSegueWithIdentifier:@"testFacebookPersonSegue" sender:self]; 
 }
 
 @end

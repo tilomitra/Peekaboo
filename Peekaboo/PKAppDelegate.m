@@ -7,8 +7,19 @@
 //
 
 #import "PKAppDelegate.h"
-
 #import "PKMasterViewController.h"
+
+static NSString* APP_ID = @"210849718975311";
+
+@implementation UINavigationBar (UINavigationBarCategory)
+/*
+- (void)drawRect:(CGRect)rect {
+    UIImage *img = [UIImage imageNamed:@"redTopBar.png"];
+    [img drawInRect:rect];
+}
+ */
+@end
+
 
 @implementation PKAppDelegate
 
@@ -16,6 +27,8 @@
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+@synthesize facebook;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -34,18 +47,26 @@
     //[self.window makeKeyAndVisible];
     
     // Create resizable images
-//    UIImage *gradientImage44 = [[UIImage imageNamed:@"topbar44_3"] 
-//                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-//    UIImage *gradientImage32 = [[UIImage imageNamed:@"topbar32"] 
-//                                resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-//    // Set the background image for *all* UINavigationBars
-//    [[UINavigationBar appearance] setBackgroundImage:gradientImage44 
-//                                       forBarMetrics:UIBarMetricsDefault];
-//    [[UINavigationBar appearance] setBackgroundImage:gradientImage32 
-//                                       forBarMetrics:UIBarMetricsLandscapePhone];
+    //UIImage *gradientImage44 = [[UIImage imageNamed:@"topbar"] 
+    //                            resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    //UIImage *gradientImage32 = [[UIImage imageNamed:@"topbar32"] 
+    //                            resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+   // Set the background image for *all* UINavigationBars
+    //[[UINavigationBar appearance] setBackgroundImage:gradientImage44 
+    //                                   forBarMetrics:UIBarMetricsDefault];
+    //[[UINavigationBar appearance] setBackgroundImage:gradientImage32 
+    //                                   forBarMetrics:UIBarMetricsLandscapePhone];
     
+    
+    
+    
+    //Facebook Authentication
+    facebook = [[Facebook alloc] initWithAppId:APP_ID andDelegate:self];
+
     return YES;
 }
+
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -101,6 +122,103 @@
         } 
     }
 }
+
+#pragma mark - Facebook Custom Implemented Methods
+
+
+- (void) checkDefaults {
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    [defaults removeObjectForKey:@"FBAccessTokenKey"];
+//    [defaults removeObjectForKey:@"FBExpirationDateKey"];
+//    [facebook logout];
+    
+    if ([defaults objectForKey:@"FBAccessTokenKey"] 
+        && [defaults objectForKey:@"FBExpirationDateKey"]) {
+        self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
+        self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
+        
+    }
+    
+    if (![facebook isSessionValid]) {
+        NSArray *permissions = [[NSArray alloc] initWithObjects:
+                                @"user_likes",
+                                @"user_birthday",
+                                @"user_location",
+                                @"user_about_me",
+                                @"user_hometown",
+                                @"user_work_history",
+                                @"user_photos",
+                                @"offline_access",
+                                nil];
+        [[self facebook] authorize:permissions];
+    }
+
+}
+
+- (BOOL) isSignedIn {
+    return [[self facebook] isSessionValid];
+}
+
+- (void) logoutFromFacebook {
+    [[self facebook] logout];
+}
+
+
+
+
+#pragma mark - Facebook Delegate Methods
+// Pre 4.2 support
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [[self facebook] handleOpenURL:url]; 
+}
+
+
+// For 4.2+ support
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[self facebook] handleOpenURL:url]; 
+}
+
+
+- (void)fbDidLogin {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[facebook accessToken] forKey:@"FBAccessTokenKey"];
+    [defaults setObject:[facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+}
+
+
+- (void)requestLoading:(FBRequest *)request {
+    NSLog(@"Request Loading");
+}
+
+- (void)request:(FBRequest *)request didReceiveResponse:(NSURLResponse *)response {
+    NSLog(@"request did receive response");
+}
+
+- (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
+    NSLog(@"Request failed with error");
+    NSLog(@"%@", [error userInfo]);
+}
+
+- (void)request:(FBRequest *)request didLoad:(id)result {
+    
+    NSString *requestType =[request.url stringByReplacingOccurrencesOfString:@"https://graph.facebook.com/" withString:@""];
+    NSLog(@"request %@",requestType); 
+    
+    
+    NSLog(@"Request did load");
+    NSLog(@"%@", result);
+}
+
+/*
+ May want to implement this to handle the processing of the server data if you need access to the raw response.
+- (void)request:(FBRequest *)request didLoadRawResponse:(NSData *)data {
+    
+}
+ */
+
 
 #pragma mark - Core Data stack
 

@@ -12,14 +12,62 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.23443190314143578" green="0.26452942653542993" blue="0.28350207270408168" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.01634106161087279" green="0.13349086430342769" blue="0.28350207270408168" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="sch-kV-Euo" kind="relationship" relationship="rootViewController" id="wc8-y4-HjK"/>
+                        <segue destination="8y2-Aa-3gX" kind="relationship" relationship="rootViewController" id="Ygb-it-Lvs"/>
                     </connections>
                 </navigationController>
             </objects>
             <point key="canvasLocation" x="-1" y="64"/>
+        </scene>
+        <scene sceneID="YEt-rn-nBT">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jFG-vC-cAd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="8y2-Aa-3gX" customClass="PKFacebookConnectViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aUU-jY-YyF">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="fabric-bg.png" id="b9i-qn-edc">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nuB-Bb-S1v">
+                                <rect key="frame" x="33" y="150" width="260" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                <size key="titleShadowOffset" width="3" height="3"/>
+                                <state key="normal" image="facebookButton@2x.png">
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="facebookButtonSelected:" destination="8y2-Aa-3gX" eventType="touchUpInside" id="2Dg-X5-R5U"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" minimumFontSize="11" id="7Nx-h2-wGK">
+                                <rect key="frame" x="26" y="314" width="274" height="82"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <string key="text">Peekaboo uses general information from your Facebook profile. By allowing access, you are able to see profiles of people you encounter.</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.076530612244897989" green="0.076530612244897989" blue="0.076530612244897989" alpha="1" colorSpace="calibratedRGB"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Connect" id="gMS-LS-EUj"/>
+                    <connections>
+                        <segue destination="sch-kV-Euo" kind="push" identifier="facebookButtonPressedSegue" id="eBX-Qb-20e"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="419" y="64"/>
         </scene>
         <scene sceneID="bw6-xr-cBv">
             <objects>
@@ -30,54 +78,87 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="z8b-Ro-pzx">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="417"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="NFg-ub-J46">
-                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="0.13943007739999999" green="0.1877887691" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="rbh-ZE-UNb"/>
-                                    <barButtonItem title="Record" width="55" id="QUr-7O-Ver">
-                                        <connections>
-                                            <action selector="toggleRecording:" destination="sch-kV-Euo" id="gIw-LS-WxY"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="flexibleSpace" id="7af-ZG-q0l"/>
-                                    <barButtonItem style="done" systemItem="camera" id="DrX-0A-oOb">
-                                        <color key="tintColor" red="0.0" green="0.87058056635957826" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="captureStillImage:" destination="sch-kV-Euo" id="qLj-Ue-sTg"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="flexibleSpace" id="UTF-Xs-KAH">
-                                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    </barButtonItem>
-                                    <barButtonItem title="Camera" id="5xp-bJ-MqP">
-                                        <connections>
-                                            <action selector="toggleCamera:" destination="sch-kV-Euo" id="oo1-Ov-bHq"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="L3Q-Mn-iEw"/>
-                                </items>
-                            </toolbar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ajv-ps-dKF">
+                                <rect key="frame" x="20" y="20" width="72" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="test fb">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loadFacebookPersonView:" destination="sch-kV-Euo" eventType="touchUpInside" id="EGq-9L-2jt"/>
+                                    <segue destination="CXS-Ki-nrA" kind="push" identifier="testFacebookPersonSegue" id="axa-xc-3gT"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="xlJ-tv-M47">
+                                <rect key="frame" x="255" y="20" width="45" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Switch" image="switchCameraButton.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleCamera:" destination="sch-kV-Euo" eventType="touchUpInside" id="BC5-Xf-bjM"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="uO9-zH-b38">
+                                <rect key="frame" x="25" y="25" width="0.0" height="0.0"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Record">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleRecording:" destination="sch-kV-Euo" eventType="touchUpInside" id="AmL-NE-UGy"/>
+                                </connections>
+                            </button>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Zw8-YD-w1A">
+                                <rect key="frame" x="130" y="350" width="60" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                <state key="normal" image="capture-button@2x.png">
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="captureStillImage:" destination="sch-kV-Euo" eventType="touchUpInside" id="tkc-2X-GhU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Scan" id="Rvg-23-QQ4"/>
                     <connections>
-                        <outlet property="cameraToggleButton" destination="5xp-bJ-MqP" id="YCw-5f-NTg"/>
-                        <outlet property="recordButton" destination="QUr-7O-Ver" id="g5o-4k-YKX"/>
-                        <outlet property="stillButton" destination="DrX-0A-oOb" id="UYs-OF-MFQ"/>
+                        <outlet property="cameraToggleButton" destination="xlJ-tv-M47" id="WVv-g5-Xq7"/>
+                        <outlet property="recordButton" destination="uO9-zH-b38" id="hc0-k6-3vV"/>
+                        <outlet property="stillButton" destination="Zw8-YD-w1A" id="bMW-bz-Hli"/>
                         <outlet property="videoPreviewView" destination="z8b-Ro-pzx" id="Eo9-iz-BCg"/>
                         <outlet property="view" destination="jSy-h0-k9m" id="r2W-VG-SOz"/>
                         <segue destination="21" kind="push" identifier="testSegue" id="9A0-qH-t5u"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="451" y="70"/>
+            <point key="canvasLocation" x="867" y="64"/>
         </scene>
         <scene sceneID="24">
             <objects>
@@ -87,8 +168,17 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="fabric-bg.png" id="102-in-46o">
+                                <rect key="frame" x="0.0" y="-45" width="320" height="461"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" id="NoK-Ih-XCz">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.90992272418478259" green="0.90992272418478259" blue="0.90992272418478259" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.79999999999999993" contentMode="left" text="No Faces Detected." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="kw3-Sh-GNY">
-                                <rect key="frame" x="54" y="350" width="213" height="31"/>
+                                <rect key="frame" x="54" y="343" width="213" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.068363724955571581" green="0.070930071526200331" blue="0.073666779891304324" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -97,7 +187,7 @@
                                 <color key="shadowColor" red="0.15667459239130432" green="0.15667459239130432" blue="0.15667459239130432" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.79999999999999993" contentMode="left" text="Select a person by tapping on them" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="fXL-sO-vsv">
-                                <rect key="frame" x="54" y="382" width="213" height="21"/>
+                                <rect key="frame" x="54" y="375" width="213" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.068363724955571581" green="0.070930071526200331" blue="0.073666779891304324" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -105,15 +195,10 @@
                                 <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="shadowColor" red="0.15667459239130432" green="0.15667459239130432" blue="0.15667459239130432" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="NoK-Ih-XCz">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.90992272418478259" green="0.90992272418478259" blue="0.90992272418478259" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Select a Face" id="26"/>
+                    <navigationItem key="navigationItem" title="Select" id="26"/>
                     <connections>
                         <outlet property="capturedImageView" destination="NoK-Ih-XCz" id="h0X-hS-GcY"/>
                         <outlet property="facesLabel" destination="kw3-Sh-GNY" id="A1T-7W-t1I"/>
@@ -123,7 +208,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="902" y="64"/>
+            <point key="canvasLocation" x="1309" y="70"/>
         </scene>
         <scene sceneID="22q-ek-MrJ">
             <objects>
@@ -161,13 +246,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Wub-Xo-01A"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1331" y="66"/>
+            <point key="canvasLocation" x="-1" y="733"/>
         </scene>
     </scenes>
     <resources>
+        <image name="capture-button@2x.png" width="120" height="88"/>
+        <image name="fabric-bg.png" width="640" height="960"/>
+        <image name="facebookButton@2x.png" width="1177" height="185"/>
         <image name="profileBackground.png" width="640" height="832"/>
+        <image name="switchCameraButton.png" width="90" height="64"/>
     </resources>
     <classes>
         <class className="PKDetailViewController" superclassName="UIViewController">
@@ -178,16 +268,24 @@
                 <relationship kind="outlet" name="facesSubTextLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
+        <class className="PKFacebookConnectViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PKFacebookConnectViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="facebookConnectButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
         <class className="PKMasterViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PKMasterViewController.h"/>
             <relationships>
                 <relationship kind="action" name="captureStillImage:"/>
+                <relationship kind="action" name="loadFacebookPersonView:"/>
                 <relationship kind="action" name="toggleCamera:"/>
                 <relationship kind="action" name="toggleRecording:"/>
-                <relationship kind="outlet" name="cameraToggleButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="cameraToggleButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="focusModeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="recordButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="stillButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="recordButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="stillButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="videoPreviewView" candidateClass="UIView"/>
             </relationships>
         </class>
@@ -199,8 +297,11 @@
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackOpaque"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="axa-xc-3gT"/>
+    </inferredMetricsTieBreakers>
 </document>

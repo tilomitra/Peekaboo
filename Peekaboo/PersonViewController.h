@@ -8,9 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-@interface PersonViewController : UIViewController
+#import "FBConnect.h"
+#import "PKPerson.h"
+@interface PersonViewController : UIViewController <FBRequestDelegate> {
+    NSString *facebookId;
+    PKPerson *person;
+    
+    //hack
+    NSString *coverPhotoId;
+}
 
 
 @property (nonatomic, retain) IBOutlet UIButton *dismissButton;
+@property (nonatomic, retain) NSString *facebookId;
+@property (nonatomic, retain) PKPerson *person;
+
+@property (nonatomic, retain) NSString *coverPhotoId;
+
 
 @end
