@@ -105,6 +105,11 @@
 		39E665AE14B1388600B5A1A3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665AD14B1388600B5A1A3 /* ImageIO.framework */; };
 		39E665B014B1389100B5A1A3 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665AF14B1389100B5A1A3 /* MediaPlayer.framework */; };
 		39E665B214B1389800B5A1A3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39E665B114B1389800B5A1A3 /* CoreMedia.framework */; };
+		39FC931214EAB78C00B10199 /* AsynchronousUIImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FC931114EAB78C00B10199 /* AsynchronousUIImage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		39FC931614EACAE000B10199 /* shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 39FC931414EACAE000B10199 /* shadow.png */; };
+		39FC931714EACAE000B10199 /* shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39FC931514EACAE000B10199 /* shadow@2x.png */; };
+		39FC931A14EACBEF00B10199 /* stack.png in Resources */ = {isa = PBXBuildFile; fileRef = 39FC931814EACBEF00B10199 /* stack.png */; };
+		39FC931B14EACBEF00B10199 /* stack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39FC931914EACBEF00B10199 /* stack@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -263,6 +268,12 @@
 		39E665AD14B1388600B5A1A3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		39E665AF14B1389100B5A1A3 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		39E665B114B1389800B5A1A3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		39FC931014EAB78C00B10199 /* AsynchronousUIImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsynchronousUIImage.h; sourceTree = "<group>"; };
+		39FC931114EAB78C00B10199 /* AsynchronousUIImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsynchronousUIImage.m; sourceTree = "<group>"; };
+		39FC931414EACAE000B10199 /* shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadow.png; sourceTree = "<group>"; };
+		39FC931514EACAE000B10199 /* shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shadow@2x.png"; sourceTree = "<group>"; };
+		39FC931814EACBEF00B10199 /* stack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stack.png; sourceTree = "<group>"; };
+		39FC931914EACBEF00B10199 /* stack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stack@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -496,6 +507,7 @@
 		39E6655014B130D100B5A1A3 /* Peekaboo */ = {
 			isa = PBXGroup;
 			children = (
+				39ED080E14DE5AA100D6E34A /* AsyncImageView */,
 				3988316514CD40DB00B69275 /* CustomTabControllers */,
 				3988315114CD3C7500B69275 /* App Icons */,
 				39E1401E14C5F47700624D91 /* FBConnect */,
@@ -526,6 +538,10 @@
 		39E6655114B130D100B5A1A3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				39FC931814EACBEF00B10199 /* stack.png */,
+				39FC931914EACBEF00B10199 /* stack@2x.png */,
+				39FC931414EACAE000B10199 /* shadow.png */,
+				39FC931514EACAE000B10199 /* shadow@2x.png */,
 				3958BCF214D3B07000D03DB4 /* redTopBar.png */,
 				3958BCF314D3B07000D03DB4 /* redTopBar@2x.png */,
 				3958BCF414D3B07000D03DB4 /* switchCameraButton.png */,
@@ -574,6 +590,15 @@
 				39E665A314B1328200B5A1A3 /* AVCamUtilities.m */,
 			);
 			name = "AV Utilities";
+			sourceTree = "<group>";
+		};
+		39ED080E14DE5AA100D6E34A /* AsyncImageView */ = {
+			isa = PBXGroup;
+			children = (
+				39FC931014EAB78C00B10199 /* AsynchronousUIImage.h */,
+				39FC931114EAB78C00B10199 /* AsynchronousUIImage.m */,
+			);
+			name = AsyncImageView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -681,6 +706,10 @@
 				3958BCF514D3B07000D03DB4 /* redTopBar.png in Resources */,
 				3958BCF614D3B07000D03DB4 /* redTopBar@2x.png in Resources */,
 				3958BCF714D3B07000D03DB4 /* switchCameraButton.png in Resources */,
+				39FC931614EACAE000B10199 /* shadow.png in Resources */,
+				39FC931714EACAE000B10199 /* shadow@2x.png in Resources */,
+				39FC931A14EACBEF00B10199 /* stack.png in Resources */,
+				39FC931B14EACBEF00B10199 /* stack@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -755,6 +784,7 @@
 				39E1403714C6041300624D91 /* PKFacebookConnectViewController.m in Sources */,
 				3988316814CD40F100B69275 /* BaseViewController.m in Sources */,
 				39545B4014DD1E630025411F /* PKPerson.m in Sources */,
+				39FC931214EAB78C00B10199 /* AsynchronousUIImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

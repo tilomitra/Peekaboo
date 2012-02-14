@@ -292,15 +292,14 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         
     }
     
-    else if ([[segue identifier] isEqualToString:@"testFacebookPersonSegue"]) {
+   
+ else if ([[segue identifier] isEqualToString:@"testFacebookPersonSegue"]) {
         //PersonViewController *personVC = [segue destinationViewController];
-        
         //set properties on the person view here...
     }
 }
 
 @end
-
 @implementation PKMasterViewController (InternalMethods)
 
 // Convert from view coordinates to camera coordinates, where {0,0} represents the top left of the picture area, and {1,1} represents

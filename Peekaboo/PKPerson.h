@@ -22,6 +22,8 @@
     
     NSDictionary *likes;
     
+    NSURL *coverPhotoUrl;
+    
     
     
 }
