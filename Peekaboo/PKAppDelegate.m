@@ -8,7 +8,7 @@
 
 #import "PKAppDelegate.h"
 #import "PKMasterViewController.h"
-
+#import "PKFacebookConnectViewController.h"
 static NSString* APP_ID = @"210849718975311";
 
 @implementation UINavigationBar (UINavigationBarCategory)
@@ -129,15 +129,18 @@ static NSString* APP_ID = @"210849718975311";
 - (void) checkDefaults {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    [defaults removeObjectForKey:@"FBAccessTokenKey"];
-//    [defaults removeObjectForKey:@"FBExpirationDateKey"];
-//    [facebook logout];
+    //[defaults removeObjectForKey:@"FBAccessTokenKey"];
+    //[defaults removeObjectForKey:@"FBExpirationDateKey"];
+    //[facebook logout];
     
     if ([defaults objectForKey:@"FBAccessTokenKey"] 
         && [defaults objectForKey:@"FBExpirationDateKey"]) {
         self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
         
+        NSLog(@"token given with id %@", [defaults objectForKey:@"FBAccessTokenKey"]);
+        NSLog(@"token expiration date given %@", [defaults objectForKey:@"FBExpirationDateKey"]);
+
     }
     
     if (![facebook isSessionValid]) {
@@ -161,6 +164,9 @@ static NSString* APP_ID = @"210849718975311";
 }
 
 - (void) logoutFromFacebook {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"FBAccessTokenKey"];
+    [defaults removeObjectForKey:@"FBExpirationDateKey"];
     [[self facebook] logout];
 }
 
@@ -186,6 +192,7 @@ static NSString* APP_ID = @"210849718975311";
     [defaults setObject:[facebook accessToken] forKey:@"FBAccessTokenKey"];
     [defaults setObject:[facebook expirationDate] forKey:@"FBExpirationDateKey"];
     [defaults synchronize];
+
 }
 
 

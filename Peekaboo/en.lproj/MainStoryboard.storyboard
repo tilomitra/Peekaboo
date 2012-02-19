@@ -12,14 +12,14 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.01634106161087279" green="0.13349086430342769" blue="0.28350207270408168" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <connections>
                         <segue destination="8y2-Aa-3gX" kind="relationship" relationship="rootViewController" id="Ygb-it-Lvs"/>
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="-1" y="64"/>
+            <point key="canvasLocation" x="-1275" y="-1012"/>
         </scene>
         <scene sceneID="YEt-rn-nBT">
             <objects>
@@ -29,12 +29,12 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="fabric-bg.png" id="b9i-qn-edc">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="facebookLoginBg.png" id="b9i-qn-edc">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nuB-Bb-S1v">
-                                <rect key="frame" x="33" y="150" width="260" height="41"/>
+                                <rect key="frame" x="33" y="255" width="260" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                 <size key="titleShadowOffset" width="3" height="3"/>
@@ -46,7 +46,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="facebookButtonSelected:" destination="8y2-Aa-3gX" eventType="touchUpInside" id="2Dg-X5-R5U"/>
+                                    <segue destination="d2H-Q1-auU" kind="modal" identifier="facebookButtonPressedSegue" modalTransitionStyle="flipHorizontal" id="OnC-Xj-hYa"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" minimumFontSize="11" id="7Nx-h2-wGK">
@@ -61,13 +61,25 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Connect" id="gMS-LS-EUj"/>
-                    <connections>
-                        <segue destination="sch-kV-Euo" kind="push" identifier="facebookButtonPressedSegue" id="eBX-Qb-20e"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Login" id="gMS-LS-EUj"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="419" y="64"/>
+            <point key="canvasLocation" x="-333" y="-1012"/>
+        </scene>
+        <scene sceneID="b7i-9p-nLm">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D5T-L3-tqE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="d2H-Q1-auU" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="SoT-xl-1nC">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="sch-kV-Euo" kind="relationship" relationship="rootViewController" id="bJY-ux-ZRf"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1301" y="-1012"/>
         </scene>
         <scene sceneID="bw6-xr-cBv">
             <objects>
@@ -78,7 +90,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="z8b-Ro-pzx">
-                                <rect key="frame" x="0.0" y="-1" width="320" height="417"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="418"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </view>
@@ -144,21 +156,27 @@
                                     <action selector="captureStillImage:" destination="sch-kV-Euo" eventType="touchUpInside" id="tkc-2X-GhU"/>
                                 </connections>
                             </button>
+                            <imageView contentMode="scaleToFill" image="instructionDialog@2x.png" id="Tez-ak-k9z">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Scan" id="Rvg-23-QQ4"/>
                     <connections>
                         <outlet property="cameraToggleButton" destination="xlJ-tv-M47" id="WVv-g5-Xq7"/>
+                        <outlet property="instructionImageView" destination="Tez-ak-k9z" id="KRo-PR-5en"/>
                         <outlet property="recordButton" destination="uO9-zH-b38" id="hc0-k6-3vV"/>
                         <outlet property="stillButton" destination="Zw8-YD-w1A" id="bMW-bz-Hli"/>
                         <outlet property="videoPreviewView" destination="z8b-Ro-pzx" id="Eo9-iz-BCg"/>
                         <outlet property="view" destination="jSy-h0-k9m" id="r2W-VG-SOz"/>
                         <segue destination="21" kind="push" identifier="testSegue" id="9A0-qH-t5u"/>
+                        <segue destination="3" kind="modal" identifier="returnToFacebookConnect" modalTransitionStyle="flipHorizontal" id="ZNc-4A-zo8"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="867" y="64"/>
+            <point key="canvasLocation" x="459" y="-88"/>
         </scene>
         <scene sceneID="24">
             <objects>
@@ -208,7 +226,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1309" y="70"/>
+            <point key="canvasLocation" x="445" y="998"/>
         </scene>
         <scene sceneID="22q-ek-MrJ">
             <objects>
@@ -256,7 +274,7 @@
                                 <color key="shadowColor" red="0.021882971938775531" green="0.021882971938775531" blue="0.021882971938775531" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="8ac-sV-3MG">
-                                <rect key="frame" x="0.0" y="257" width="320" height="159"/>
+                                <rect key="frame" x="0.0" y="257" width="320" height="160"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -303,13 +321,15 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-1" y="733"/>
+            <point key="canvasLocation" x="2151" y="989"/>
         </scene>
     </scenes>
     <resources>
         <image name="capture-button@2x.png" width="120" height="88"/>
         <image name="fabric-bg.png" width="640" height="960"/>
         <image name="facebookButton@2x.png" width="1177" height="185"/>
+        <image name="facebookLoginBg.png" width="640" height="960"/>
+        <image name="instructionDialog@2x.png" width="640" height="832"/>
         <image name="shadow.png" width="320" height="10"/>
         <image name="stack.png" width="112" height="111"/>
         <image name="switchCameraButton.png" width="90" height="64"/>
@@ -321,11 +341,13 @@
                 <relationship kind="outlet" name="capturedImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="facesLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="facesSubTextLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tempRecognizeButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="PKFacebookConnectViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PKFacebookConnectViewController.h"/>
             <relationships>
+                <relationship kind="action" name="facebookButtonSelected:"/>
                 <relationship kind="outlet" name="facebookConnectButton" candidateClass="UIButton"/>
             </relationships>
         </class>
@@ -338,6 +360,7 @@
                 <relationship kind="action" name="toggleRecording:"/>
                 <relationship kind="outlet" name="cameraToggleButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="focusModeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="instructionImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="recordButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="stillButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>

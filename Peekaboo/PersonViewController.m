@@ -10,8 +10,13 @@
 #import "PKAppDelegate.h"
 #import "PKPerson.h"
 #import "AsynchronousUIImage.h"
+
+#import "WEPopoverContentViewController.h"
+#import "UIBarButtonItem+WEPopover.h"
+
+
+
 //fql?q=SELECT cover_object_id FROM album WHERE aid IN (SELECT aid, name FROM album WHERE owner=501146691 AND name='Cover Photos')
-static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20album%20where%20aid%20IN%20(SELECT%20aid,%20name%20FROM%20album%20WHERE%20owner=%20501146691%20and%20name='Cover%20Photos')";
 
 @implementation PersonViewController
 @synthesize dismissButton;
@@ -23,6 +28,7 @@ static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20al
 @synthesize tableView;
 @synthesize nameLabel;
 @synthesize secondaryInfoLabel;
+@synthesize popoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,7 +56,11 @@ static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20al
 }
 
 - (void)request:(FBRequest *)request didReceiveResponse:(NSURLResponse *)response {
-    NSLog(@"request did receive response");
+    NSLog(@"request did receive response with url %@", request.url);
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSLog(@"the current token is %@", [defaults objectForKey:@"FBAccessTokenKey"]);
+    NSLog(@"the current token expiration date is %@", [defaults objectForKey:@"FBExpirationDateKey"]);
+    
 }
 
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
@@ -59,14 +69,22 @@ static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20al
 }
 
 - (void)request:(FBRequest *)request didLoad:(id)result {
+
     
     PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSString *requestType =[request.url stringByReplacingOccurrencesOfString:@"https://graph.facebook.com/" withString:@""];
     NSLog(@"%@", requestType);
     
+    //access token hack
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults objectForKey:@"FBAccessTokenKey"];  
+    
+    NSString *fbCoverPhotoCall = [NSString stringWithFormat:@"%@%@%@&access_token=%@", @"fql?q=SELECT%20cover_object_id%20from%20album%20where%20aid%20IN%20(SELECT%20aid,%20name%20FROM%20album%20WHERE%20owner=", self.facebookId, @"%20and%20name='Cover%20Photos')", token];
+    
+    NSLog(@"%@", fbCoverPhotoCall);
     
     //Basic User Info
-    if ([requestType isEqualToString:@"me"]) {
+    if ([requestType isEqualToString:[NSString stringWithFormat:@"%@&access_token=%@", self.facebookId, token]]) {
         NSLog(@"%@", result);
         [[self person] setData:result];
         [[self nameLabel] setText:self.person.name];
@@ -75,7 +93,7 @@ static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20al
     }
     
     //Likes of a person
-    else if ([requestType isEqualToString:@"me/likes"]) {
+    else if ([requestType isEqualToString:[NSString stringWithFormat:@"%@/likes&access_token=%@", self.facebookId, token]]) {
         [[self person] categorizeLikes:result];
         [[self tableView] reloadData];
     }
@@ -96,7 +114,7 @@ static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20al
         [self displayCoverPhoto];
     }
     
-    else if ([requestType isEqualToString:@"me/picture?type=large"]) {
+    else if ([requestType isEqualToString:[NSString stringWithFormat:@"%@/picture?type=large&access_token=%@", self.facebookId, token]]) {
         self.profilePictureView.image = [UIImage imageWithData:result];
     }
 }
@@ -141,19 +159,34 @@ static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20al
     
     self.person = [[PKPerson alloc] init];
     
+    if (!self.facebookId) {
+        self.facebookId = @"541904540";
+    }
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-        
+    
+    //Access Token Hack
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults objectForKey:@"FBAccessTokenKey"];    
+    
+    
+    NSLog(@"the person's facebook ID is %@", self.facebookId);
+    
+    NSString *fbCoverPhotoCall = [NSString stringWithFormat:@"%@%@%@&access_token=%@", @"fql?q=SELECT%20cover_object_id%20from%20album%20where%20aid%20IN%20(SELECT%20aid,%20name%20FROM%20album%20WHERE%20owner=", self.facebookId, @"%20and%20name='Cover%20Photos')", token];
+
     
     //get cover photo
     [[delegate facebook] requestWithGraphPath:fbCoverPhotoCall andDelegate:self];
     
     
-    [[delegate facebook] requestWithGraphPath:@"me" andDelegate:self];
-    [[delegate facebook] requestWithGraphPath:@"me/likes" andDelegate:self];
-    [[delegate facebook] requestWithGraphPath:@"me/picture?type=large" andDelegate:self];
+    [[delegate facebook] requestWithGraphPath:[NSString stringWithFormat:@"%@&access_token=%@", self.facebookId, token] andDelegate:self];
+    [[delegate facebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/likes&access_token=%@", self.facebookId, token] andDelegate:self];
+    [[delegate facebook] requestWithGraphPath:[NSString stringWithFormat:@"%@/picture?type=large&access_token=%@", self.facebookId, token] andDelegate:self];
     
-
+    
+    popoverClass = [WEPopoverController class];
+    currentPopoverCellIndex = -1;
 
     
 }
@@ -164,11 +197,12 @@ static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20al
 }
 */
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+- (void)viewDidUnload {
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
+	[self.popoverController dismissPopoverAnimated:NO];
+	self.popoverController = nil;
+	[super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -209,5 +243,117 @@ static NSString *fbCoverPhotoCall = @"fql?q=SELECT%20cover_object_id%20from%20al
     //NSInteger section = [indexPath section];
     return cell;
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Navigation logic may go here. Create and push another view controller.
+	BOOL shouldShowNewPopover = indexPath.row != currentPopoverCellIndex;
+	
+	if (self.popoverController) {
+		[self.popoverController dismissPopoverAnimated:YES];
+		self.popoverController = nil;
+		currentPopoverCellIndex = -1;
+	} 
+	
+	if (shouldShowNewPopover) {
+		//UIViewController *contentViewController = [[WEPopoverContentViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        NSArray *keys = [[person likes] allKeys];
+        NSString *key = [keys objectAtIndex:[indexPath row]];
+        NSArray *detailArray = [[person likes] objectForKey:key];
+        
+        UIViewController *contentViewController = [[WEPopoverContentViewController alloc] initWithStyle:UITableViewStylePlain passArray:detailArray];
+        
+        //contentViewController.itemArray = [NSArray arrayWithObjects:@"Test1", @"Test2", nil];
+        
+        
+		//UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        //CGRect frame = [tableView rectForRowAtIndexPath:indexPath];
+        
+        CGRect rectInTableView = [tableView rectForRowAtIndexPath:indexPath];
+        CGRect rectInSuperview = [tableView convertRect:rectInTableView toView:[tableView superview]]; 
+
+        //NSLog(@"Cell Width = %f", rectInSuperview.size.width);
+        //NSLog(@"Cell Height = %f",rectInSuperview.size.height);
+        //NSLog(@"Cell Origin X = %f",rectInSuperview.origin.x);
+        //NSLog(@"Cell Origin Y = %f",rectInSuperview.origin.y);
+		
+		self.popoverController = [[popoverClass alloc] initWithContentViewController:contentViewController];
+		
+		if ([self.popoverController respondsToSelector:@selector(setContainerViewProperties:)]) {
+			[self.popoverController setContainerViewProperties:[self improvedContainerViewProperties]];
+		}
+		
+		self.popoverController.delegate = self;
+		
+		//Uncomment the line below to allow the table view to handle events while the popover is displayed.
+		//Otherwise the popover is dismissed automatically if a user touches anywhere outside of its view.
+		
+		self.popoverController.passthroughViews = [NSArray arrayWithObject:self.tableView];
+		
+		[self.popoverController presentPopoverFromRect:rectInSuperview  
+												inView:self.view 
+							  permittedArrowDirections:(UIPopoverArrowDirectionUp|UIPopoverArrowDirectionDown|
+														UIPopoverArrowDirectionLeft|UIPopoverArrowDirectionRight)
+											  animated:YES];
+		currentPopoverCellIndex = indexPath.row;
+		
+	}
+	
+}
+
+
+
+#pragma mark - Popover Methods
+
+
+- (WEPopoverContainerViewProperties *)improvedContainerViewProperties {
+	
+	WEPopoverContainerViewProperties *props = [[WEPopoverContainerViewProperties alloc] init];
+	NSString *bgImageName = nil;
+	CGFloat bgMargin = 0.0;
+	CGFloat bgCapSize = 0.0;
+	CGFloat contentMargin = 4.0;
+	
+	bgImageName = @"popoverBg.png";
+	
+	// These constants are determined by the popoverBg.png image file and are image dependent
+	bgMargin = 13; // margin width of 13 pixels on all sides popoverBg.png (62 pixels wide - 36 pixel background) / 2 == 26 / 2 == 13 
+	bgCapSize = 31; // ImageSize/2  == 62 / 2 == 31 pixels
+	
+	props.leftBgMargin = bgMargin;
+	props.rightBgMargin = bgMargin;
+	props.topBgMargin = bgMargin;
+	props.bottomBgMargin = bgMargin;
+	props.leftBgCapSize = bgCapSize;
+	props.topBgCapSize = bgCapSize;
+	props.bgImageName = bgImageName;
+	props.leftContentMargin = contentMargin;
+	props.rightContentMargin = contentMargin - 1; // Need to shift one pixel for border to look correct
+	props.topContentMargin = contentMargin; 
+	props.bottomContentMargin = contentMargin;
+	
+	props.arrowMargin = 4.0;
+	
+	props.upArrowImageName = @"popoverArrowUp.png";
+	props.downArrowImageName = @"popoverArrowDown.png";
+	props.leftArrowImageName = @"popoverArrowLeft.png";
+	props.rightArrowImageName = @"popoverArrowRight.png";
+	return props;	
+}
+
+#pragma mark WEPopoverControllerDelegate implementation
+
+- (void)popoverControllerDidDismissPopover:(WEPopoverController *)thePopoverController {
+	//Safe to release the popover here
+	self.popoverController = nil;
+}
+
+- (BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)thePopoverController {
+	//The popover is automatically dismissed if you click outside it, unless you return NO here
+	return YES;
+}
+
 
 @end

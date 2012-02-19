@@ -63,6 +63,28 @@
 		3988319314CD5EC700B69275 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3988319214CD5EC700B69275 /* Default.png */; };
 		3988319B14CD635700B69275 /* facebookButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 3988319A14CD635700B69275 /* facebookButton.png */; };
 		3988319D14CD641D00B69275 /* facebookButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3988319C14CD641D00B69275 /* facebookButton@2x.png */; };
+		3994407D14EF37FF0008C161 /* instructionDialog@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3994407C14EF37FF0008C161 /* instructionDialog@2x.png */; };
+		3994408014EF444E0008C161 /* facebookLoginBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3994407F14EF444E0008C161 /* facebookLoginBg.png */; };
+		39C31F4114EAD1C50099A10C /* WETouchableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C31F3914EAD1C50099A10C /* WETouchableView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		39C31F4214EAD1C50099A10C /* WEPopoverContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C31F3B14EAD1C50099A10C /* WEPopoverContainerView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		39C31F4314EAD1C50099A10C /* WEPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C31F3D14EAD1C50099A10C /* WEPopoverController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		39C31F4414EAD1C50099A10C /* UIBarButtonItem+WEPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C31F4014EAD1C50099A10C /* UIBarButtonItem+WEPopover.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		39C31F4714EAD2C50099A10C /* WEPopoverContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39C31F4614EAD2C50099A10C /* WEPopoverContentViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		39C31F5514EAD4590099A10C /* popoverBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F4B14EAD4590099A10C /* popoverBg@2x.png */; };
+		39C31F5614EAD4590099A10C /* popoverBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F4C14EAD4590099A10C /* popoverBg.png */; };
+		39C31F5714EAD4590099A10C /* popoverArrowUp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F4D14EAD4590099A10C /* popoverArrowUp@2x.png */; };
+		39C31F5814EAD4590099A10C /* popoverArrowUp.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F4E14EAD4590099A10C /* popoverArrowUp.png */; };
+		39C31F5914EAD4590099A10C /* popoverArrowRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F4F14EAD4590099A10C /* popoverArrowRight@2x.png */; };
+		39C31F5A14EAD4590099A10C /* popoverArrowRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F5014EAD4590099A10C /* popoverArrowRight.png */; };
+		39C31F5B14EAD4590099A10C /* popoverArrowLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F5114EAD4590099A10C /* popoverArrowLeft@2x.png */; };
+		39C31F5C14EAD4590099A10C /* popoverArrowLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F5214EAD4590099A10C /* popoverArrowLeft.png */; };
+		39C31F5D14EAD4590099A10C /* popoverArrowDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F5314EAD4590099A10C /* popoverArrowDown@2x.png */; };
+		39C31F5E14EAD4590099A10C /* popoverArrowDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F5414EAD4590099A10C /* popoverArrowDown.png */; };
+		39C31F6414EAD4600099A10C /* popoverBgSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F5F14EAD4600099A10C /* popoverBgSimple.png */; };
+		39C31F6514EAD4600099A10C /* popoverArrowUpSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F6014EAD4600099A10C /* popoverArrowUpSimple.png */; };
+		39C31F6614EAD4600099A10C /* popoverArrowRightSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F6114EAD4600099A10C /* popoverArrowRightSimple.png */; };
+		39C31F6714EAD4600099A10C /* popoverArrowLeftSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F6214EAD4600099A10C /* popoverArrowLeftSimple.png */; };
+		39C31F6814EAD4600099A10C /* popoverArrowDownSimple.png in Resources */ = {isa = PBXBuildFile; fileRef = 39C31F6314EAD4600099A10C /* popoverArrowDownSimple.png */; };
 		39CE6A1314C3FE910073415A /* profileBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 39CE6A1214C3FE910073415A /* profileBackground.png */; };
 		39E1402A14C5F48500624D91 /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E1402114C5F48500624D91 /* Facebook.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		39E1402B14C5F48500624D91 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 39E1402314C5F48500624D91 /* FBDialog.bundle */; };
@@ -211,6 +233,34 @@
 		3988319214CD5EC700B69275 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		3988319A14CD635700B69275 /* facebookButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebookButton.png; sourceTree = "<group>"; };
 		3988319C14CD641D00B69275 /* facebookButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebookButton@2x.png"; sourceTree = "<group>"; };
+		3994407C14EF37FF0008C161 /* instructionDialog@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "instructionDialog@2x.png"; sourceTree = "<group>"; };
+		3994407F14EF444E0008C161 /* facebookLoginBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebookLoginBg.png; sourceTree = "<group>"; };
+		39C31F3814EAD1C50099A10C /* WETouchableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WETouchableView.h; sourceTree = "<group>"; };
+		39C31F3914EAD1C50099A10C /* WETouchableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WETouchableView.m; sourceTree = "<group>"; };
+		39C31F3A14EAD1C50099A10C /* WEPopoverContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverContainerView.h; sourceTree = "<group>"; };
+		39C31F3B14EAD1C50099A10C /* WEPopoverContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEPopoverContainerView.m; sourceTree = "<group>"; };
+		39C31F3C14EAD1C50099A10C /* WEPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverController.h; sourceTree = "<group>"; };
+		39C31F3D14EAD1C50099A10C /* WEPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEPopoverController.m; sourceTree = "<group>"; };
+		39C31F3E14EAD1C50099A10C /* WEPopoverParentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverParentView.h; sourceTree = "<group>"; };
+		39C31F3F14EAD1C50099A10C /* UIBarButtonItem+WEPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WEPopover.h"; sourceTree = "<group>"; };
+		39C31F4014EAD1C50099A10C /* UIBarButtonItem+WEPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WEPopover.m"; sourceTree = "<group>"; };
+		39C31F4514EAD2C50099A10C /* WEPopoverContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WEPopoverContentViewController.h; sourceTree = "<group>"; };
+		39C31F4614EAD2C50099A10C /* WEPopoverContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEPopoverContentViewController.m; sourceTree = "<group>"; };
+		39C31F4B14EAD4590099A10C /* popoverBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverBg@2x.png"; sourceTree = "<group>"; };
+		39C31F4C14EAD4590099A10C /* popoverBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverBg.png; sourceTree = "<group>"; };
+		39C31F4D14EAD4590099A10C /* popoverArrowUp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowUp@2x.png"; sourceTree = "<group>"; };
+		39C31F4E14EAD4590099A10C /* popoverArrowUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowUp.png; sourceTree = "<group>"; };
+		39C31F4F14EAD4590099A10C /* popoverArrowRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowRight@2x.png"; sourceTree = "<group>"; };
+		39C31F5014EAD4590099A10C /* popoverArrowRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowRight.png; sourceTree = "<group>"; };
+		39C31F5114EAD4590099A10C /* popoverArrowLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowLeft@2x.png"; sourceTree = "<group>"; };
+		39C31F5214EAD4590099A10C /* popoverArrowLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowLeft.png; sourceTree = "<group>"; };
+		39C31F5314EAD4590099A10C /* popoverArrowDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popoverArrowDown@2x.png"; sourceTree = "<group>"; };
+		39C31F5414EAD4590099A10C /* popoverArrowDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowDown.png; sourceTree = "<group>"; };
+		39C31F5F14EAD4600099A10C /* popoverBgSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverBgSimple.png; sourceTree = "<group>"; };
+		39C31F6014EAD4600099A10C /* popoverArrowUpSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowUpSimple.png; sourceTree = "<group>"; };
+		39C31F6114EAD4600099A10C /* popoverArrowRightSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowRightSimple.png; sourceTree = "<group>"; };
+		39C31F6214EAD4600099A10C /* popoverArrowLeftSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowLeftSimple.png; sourceTree = "<group>"; };
+		39C31F6314EAD4600099A10C /* popoverArrowDownSimple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popoverArrowDownSimple.png; sourceTree = "<group>"; };
 		39CE6A1214C3FE910073415A /* profileBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profileBackground.png; sourceTree = "<group>"; };
 		39E1402014C5F48500624D91 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		39E1402114C5F48500624D91 /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
@@ -440,6 +490,60 @@
 			name = "Custom Tab Bar Images";
 			sourceTree = "<group>";
 		};
+		39C31F3614EAD1B50099A10C /* WEPopover */ = {
+			isa = PBXGroup;
+			children = (
+				39C31F3814EAD1C50099A10C /* WETouchableView.h */,
+				39C31F3914EAD1C50099A10C /* WETouchableView.m */,
+				39C31F3A14EAD1C50099A10C /* WEPopoverContainerView.h */,
+				39C31F3B14EAD1C50099A10C /* WEPopoverContainerView.m */,
+				39C31F3C14EAD1C50099A10C /* WEPopoverController.h */,
+				39C31F3D14EAD1C50099A10C /* WEPopoverController.m */,
+				39C31F3E14EAD1C50099A10C /* WEPopoverParentView.h */,
+				39C31F3F14EAD1C50099A10C /* UIBarButtonItem+WEPopover.h */,
+				39C31F4014EAD1C50099A10C /* UIBarButtonItem+WEPopover.m */,
+			);
+			name = WEPopover;
+			sourceTree = "<group>";
+		};
+		39C31F4814EAD43E0099A10C /* WEPopover Images */ = {
+			isa = PBXGroup;
+			children = (
+				39C31F4A14EAD44D0099A10C /* Simple */,
+				39C31F4914EAD4450099A10C /* Improved */,
+			);
+			name = "WEPopover Images";
+			sourceTree = "<group>";
+		};
+		39C31F4914EAD4450099A10C /* Improved */ = {
+			isa = PBXGroup;
+			children = (
+				39C31F4B14EAD4590099A10C /* popoverBg@2x.png */,
+				39C31F4C14EAD4590099A10C /* popoverBg.png */,
+				39C31F4D14EAD4590099A10C /* popoverArrowUp@2x.png */,
+				39C31F4E14EAD4590099A10C /* popoverArrowUp.png */,
+				39C31F4F14EAD4590099A10C /* popoverArrowRight@2x.png */,
+				39C31F5014EAD4590099A10C /* popoverArrowRight.png */,
+				39C31F5114EAD4590099A10C /* popoverArrowLeft@2x.png */,
+				39C31F5214EAD4590099A10C /* popoverArrowLeft.png */,
+				39C31F5314EAD4590099A10C /* popoverArrowDown@2x.png */,
+				39C31F5414EAD4590099A10C /* popoverArrowDown.png */,
+			);
+			name = Improved;
+			sourceTree = "<group>";
+		};
+		39C31F4A14EAD44D0099A10C /* Simple */ = {
+			isa = PBXGroup;
+			children = (
+				39C31F5F14EAD4600099A10C /* popoverBgSimple.png */,
+				39C31F6014EAD4600099A10C /* popoverArrowUpSimple.png */,
+				39C31F6114EAD4600099A10C /* popoverArrowRightSimple.png */,
+				39C31F6214EAD4600099A10C /* popoverArrowLeftSimple.png */,
+				39C31F6314EAD4600099A10C /* popoverArrowDownSimple.png */,
+			);
+			name = Simple;
+			sourceTree = "<group>";
+		};
 		39E1401E14C5F47700624D91 /* FBConnect */ = {
 			isa = PBXGroup;
 			children = (
@@ -507,6 +611,7 @@
 		39E6655014B130D100B5A1A3 /* Peekaboo */ = {
 			isa = PBXGroup;
 			children = (
+				39C31F3614EAD1B50099A10C /* WEPopover */,
 				39ED080E14DE5AA100D6E34A /* AsyncImageView */,
 				3988316514CD40DB00B69275 /* CustomTabControllers */,
 				3988315114CD3C7500B69275 /* App Icons */,
@@ -530,6 +635,8 @@
 				39E6655F14B130D100B5A1A3 /* Peekaboo.xcdatamodeld */,
 				39545B3E14DD1E630025411F /* PKPerson.h */,
 				39545B3F14DD1E630025411F /* PKPerson.m */,
+				39C31F4514EAD2C50099A10C /* WEPopoverContentViewController.h */,
+				39C31F4614EAD2C50099A10C /* WEPopoverContentViewController.m */,
 				39E6655114B130D100B5A1A3 /* Supporting Files */,
 			);
 			path = Peekaboo;
@@ -538,6 +645,9 @@
 		39E6655114B130D100B5A1A3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3994407F14EF444E0008C161 /* facebookLoginBg.png */,
+				3994407C14EF37FF0008C161 /* instructionDialog@2x.png */,
+				39C31F4814EAD43E0099A10C /* WEPopover Images */,
 				39FC931814EACBEF00B10199 /* stack.png */,
 				39FC931914EACBEF00B10199 /* stack@2x.png */,
 				39FC931414EACAE000B10199 /* shadow.png */,
@@ -710,6 +820,23 @@
 				39FC931714EACAE000B10199 /* shadow@2x.png in Resources */,
 				39FC931A14EACBEF00B10199 /* stack.png in Resources */,
 				39FC931B14EACBEF00B10199 /* stack@2x.png in Resources */,
+				39C31F5514EAD4590099A10C /* popoverBg@2x.png in Resources */,
+				39C31F5614EAD4590099A10C /* popoverBg.png in Resources */,
+				39C31F5714EAD4590099A10C /* popoverArrowUp@2x.png in Resources */,
+				39C31F5814EAD4590099A10C /* popoverArrowUp.png in Resources */,
+				39C31F5914EAD4590099A10C /* popoverArrowRight@2x.png in Resources */,
+				39C31F5A14EAD4590099A10C /* popoverArrowRight.png in Resources */,
+				39C31F5B14EAD4590099A10C /* popoverArrowLeft@2x.png in Resources */,
+				39C31F5C14EAD4590099A10C /* popoverArrowLeft.png in Resources */,
+				39C31F5D14EAD4590099A10C /* popoverArrowDown@2x.png in Resources */,
+				39C31F5E14EAD4590099A10C /* popoverArrowDown.png in Resources */,
+				39C31F6414EAD4600099A10C /* popoverBgSimple.png in Resources */,
+				39C31F6514EAD4600099A10C /* popoverArrowUpSimple.png in Resources */,
+				39C31F6614EAD4600099A10C /* popoverArrowRightSimple.png in Resources */,
+				39C31F6714EAD4600099A10C /* popoverArrowLeftSimple.png in Resources */,
+				39C31F6814EAD4600099A10C /* popoverArrowDownSimple.png in Resources */,
+				3994407D14EF37FF0008C161 /* instructionDialog@2x.png in Resources */,
+				3994408014EF444E0008C161 /* facebookLoginBg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -785,6 +912,11 @@
 				3988316814CD40F100B69275 /* BaseViewController.m in Sources */,
 				39545B4014DD1E630025411F /* PKPerson.m in Sources */,
 				39FC931214EAB78C00B10199 /* AsynchronousUIImage.m in Sources */,
+				39C31F4114EAD1C50099A10C /* WETouchableView.m in Sources */,
+				39C31F4214EAD1C50099A10C /* WEPopoverContainerView.m in Sources */,
+				39C31F4314EAD1C50099A10C /* WEPopoverController.m in Sources */,
+				39C31F4414EAD1C50099A10C /* UIBarButtonItem+WEPopover.m in Sources */,
+				39C31F4714EAD2C50099A10C /* WEPopoverContentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

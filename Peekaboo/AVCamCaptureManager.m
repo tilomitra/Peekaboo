@@ -87,6 +87,7 @@
 @synthesize delegate;
 @synthesize lastCapturedImage;
 @synthesize facePhotosObject;
+@synthesize lastParseId;
 
 - (id) init
 {
@@ -354,6 +355,8 @@
                                                                              
                                                                              //save id in local db
                                                                              if (succeeded) {
+                                                                                 
+                                                                                 [self setLastParseId:userPhoto.objectId];
                                                                                  NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/addCapturedImage/%@", userPhoto.objectId];
                                                                                  
                                                                                  NSLog(@"Url for saving to db: %@", urlString);

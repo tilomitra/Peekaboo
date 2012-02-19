@@ -67,6 +67,7 @@
 @property (nonatomic,assign) UIBackgroundTaskIdentifier backgroundRecordingID;
 @property (nonatomic,assign) id <AVCamCaptureManagerDelegate> delegate;
 @property (nonatomic, retain) UIImage *lastCapturedImage;
+@property (nonatomic, retain) NSString *lastParseId;
 
 @property (nonatomic, retain) NSDictionary *facePhotosObject;
 

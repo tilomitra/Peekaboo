@@ -11,6 +11,8 @@
 #import "FBConnect.h"
 #import "PKPerson.h"
 #import "AsynchronousUIImage.h"
+#import "WEPopoverController.h"
+
 @interface PersonViewController : UIViewController <FBRequestDelegate, AsynchronousUIImageDelegate, UITableViewDelegate, UITableViewDataSource> {
     NSString *facebookId;
     PKPerson *person;
@@ -24,6 +26,12 @@
 
     //hack
     NSString *coverPhotoId;
+    
+    
+    //WEPopover Stuff
+    WEPopoverController *popoverController;
+	NSInteger currentPopoverCellIndex;
+	Class popoverClass;
 }
 
 
@@ -37,6 +45,10 @@
 @property (nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *secondaryInfoLabel;
 
+@property (nonatomic, retain) WEPopoverController *popoverController;
+
+
 - (void) displayCoverPhoto;
+- (WEPopoverContainerViewProperties *)improvedContainerViewProperties;
 
 @end

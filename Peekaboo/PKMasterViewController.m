@@ -15,6 +15,9 @@
 #import "PKAppDelegate.h"
 #import "PersonViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "ASIHTTPRequest.h"
+#import "PKFacebookConnectViewController.h"
+
 
 
 static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
@@ -45,10 +48,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize capturedImage;
 @synthesize data;
 @synthesize retrievedFacesObject;
+@synthesize retrievedParseId;
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize toolbar;
+@synthesize instructionImageView;
 
 - (void)awakeFromNib
 {
@@ -61,8 +66,40 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     // Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark - Temporary Test
+
+- (IBAction)checkIfRecognized:(id)sender {
+    NSURL *url = [NSURL URLWithString:@"http://stormy-moon-8803.herokuapp.com/api/getResultForRecognizedImageWithId/jlLeLx7fMb"];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request startSynchronous];
+    NSError *error = [request error];
+    if (!error) {
+        NSString *response = [request responseString];
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle: @"Test"
+                              message: response
+                              delegate: nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+
+- (void)hideInstructionImageView:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    self.instructionImageView.hidden = YES;
+}
+
 #pragma mark - View lifecycle
 
+
+- (void)facebookLogout:(id)sender {
+    PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate logoutFromFacebook];
+    [self performSegueWithIdentifier:@"returnToFacebookConnect" sender:self];
+
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -72,6 +109,10 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     //remove the connect with facebook back button
 
     self.navigationItem.leftBarButtonItem = nil;
+    
+    
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(facebookLogout:)];          
+    self.navigationItem.rightBarButtonItem = logoutButton;
     
     //this adds custom top nav bar
     
@@ -152,6 +193,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [toolbar setFrame:CGRectMake(0, 410, 320, 50)];
     self.navigationItem.hidesBackButton = YES;
     
+    
+    //Add Tap Recognizer to Instruction ImageView
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideInstructionImageView:)];
+    tapGestureRecognizer.numberOfTapsRequired = 1;
+    tapGestureRecognizer.numberOfTouchesRequired = 1;
+    [self.instructionImageView addGestureRecognizer:tapGestureRecognizer];
 
 }
 
@@ -288,14 +335,19 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         
         PKDetailViewController *detailVC = [segue destinationViewController];
         [detailVC setCapturedImage:[self capturedImage]];
+        [detailVC setLastParseId:[self retrievedParseId]];
         [detailVC setRetrievedFacesObject:[self retrievedFacesObject]];
         
     }
     
    
- else if ([[segue identifier] isEqualToString:@"testFacebookPersonSegue"]) {
+    else if ([[segue identifier] isEqualToString:@"testFacebookPersonSegue"]) {
         //PersonViewController *personVC = [segue destinationViewController];
         //set properties on the person view here...
+    }
+    else if ([[segue identifier] isEqualToString:@"returnToFacebookConnect"]) {
+        PKFacebookConnectViewController *fbConnectVC = [segue destinationViewController];
+        
     }
 }
 
@@ -469,6 +521,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 - (void)captureManagerFacesDetected:(AVCamCaptureManager *)captureManager
 {
     [self setRetrievedFacesObject:[self.captureManager facePhotosObject]];
+    [self setRetrievedParseId:[self.captureManager lastParseId]];
     [SVProgressHUD showSuccessWithStatus:@"Done all the work!"];
     [self performSegueWithIdentifier:@"testSegue" sender:nil];
     CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopCommonModes, ^(void) {

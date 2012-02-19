@@ -19,7 +19,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *facebookConnectButton;
 @property (nonatomic, retain) Facebook *facebook;
 
-//- (IBAction)facebookButtonSelected:(id)sender;
+- (IBAction)facebookButtonSelected:(id)sender;
 - (void)fbDidLogin;
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url;
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;

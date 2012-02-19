@@ -9,6 +9,8 @@
 #import "PKDetailViewController.h"
 #import "SVProgressHUD.h"
 #import "PersonViewController.h"
+#import "ASIHTTPRequest.h"
+#import "SBJson.h"
 
 
 @implementation PKDetailViewController
@@ -18,8 +20,14 @@
 @synthesize retrievedFacesObject;
 @synthesize facesLabel;
 @synthesize facesSubTextLabel;
+@synthesize tempRecognizeButton;
+@synthesize lastParseId;
+@synthesize retrievedFacebookId;
+
 
 #pragma mark - Managing the imageview
+
+
 
 
 - (void)configureView
@@ -114,7 +122,9 @@
 
 - (void)faceTouchUpInside:(id)sender {
     NSLog(@"Touch Up Inside Performed");
-    [self performSegueWithIdentifier:@"showPersonViewSegue" sender:nil];
+    [SVProgressHUD showWithStatus:@"Recognizing..." maskType:SVProgressHUDMaskTypeBlack networkIndicator:YES];
+    [self checkIfRecognized];
+    //[self performSegueWithIdentifier:@"showPersonViewSegue" sender:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -125,7 +135,8 @@
      */
     if ([[segue identifier] isEqualToString:@"showPersonViewSegue"]) {
         
-        PersonViewController *personVC  = segue.destinationViewController;      
+        PersonViewController *personVC  = segue.destinationViewController;
+        [personVC setFacebookId:self.retrievedFacebookId];
     }
 }
 
@@ -157,6 +168,76 @@
     [capturedImageView addSubview:facesLabel];
     [capturedImageView addSubview:facesSubTextLabel];
 }
+
+
+
+#pragma mark - Face Recognition Methods
+
+- (void) checkIfRecognized {
+    
+    NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/getResultForRecognizedImageWithId/%@", self.lastParseId];
+    
+    
+    //NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/getResultForRecognizedImageWithId/%@", @"j4deV7okxD"];
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request setDelegate:self];
+    [request startAsynchronous];
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    //If we get empty JSON back, then the recognition process has not completed. Query Again.
+    NSString *responseString = [request responseString];
+    
+    if ([responseString isEqualToString:@"{}"]) {
+        [self checkIfRecognized];
+    }
+    
+    //If something has been retrieved, send it here.
+    else {
+        
+        [SVProgressHUD dismissWithSuccess:@"Recognition Complete"];
+        
+        
+        SBJsonParser *parser = [[SBJsonParser alloc] init];
+        // parse the JSON string into an object - assuming json_string is a NSString of JSON data
+        NSDictionary *responseObj = [parser objectWithString:responseString error:nil];
+        [self setRetrievedFacebookId:[responseObj objectForKey:@"facebookId"]];      
+        
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle: @"Test"
+                              message: self.retrievedFacebookId
+                              delegate: nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+        [alert show];
+        
+        
+        [self performSegueWithIdentifier:@"showPersonViewSegue" sender:nil];
+    }
+
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    NSLog(@"%@", error);
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle: @"Error"
+                          message: @"There was an error during the recognition process. Try again?"
+                          delegate: nil
+                          cancelButtonTitle:@"Yes"
+                          otherButtonTitles:@"No", nil];
+    [alert show];
+    
+}
+
+
+
+
 
 #pragma mark - View lifecycle
 

@@ -29,10 +29,11 @@
 @property (nonatomic,retain) IBOutlet UIButton *recordButton;
 @property (nonatomic,retain) IBOutlet UIButton *stillButton;
 @property (nonatomic,retain) IBOutlet UILabel *focusModeLabel;
-
+@property (nonatomic, retain) IBOutlet UIImageView *instructionImageView;
 @property (nonatomic, retain) UIImage *capturedImage;
 @property (nonatomic, retain) NSArray *data;
 @property (nonatomic, retain) NSDictionary *retrievedFacesObject;
+@property (nonatomic, retain) NSString *retrievedParseId;
 
 - (IBAction)toggleRecording:(id)sender;
 - (IBAction)captureStillImage:(id)sender;
@@ -42,4 +43,5 @@
 
 - (void)navigateToDetailViewWithImage:(UIImage *)image;
 
+- (void)hideInstructionImageView:(UITapGestureRecognizer *)tapGestureRecognizer;
 @end

@@ -9,6 +9,7 @@
 #import "PKFacebookConnectViewController.h"
 #import "PKMasterViewController.h"
 #import "PKAppDelegate.h"
+#import "PKMasterViewController.h"
 
 @implementation PKFacebookConnectViewController
 
@@ -40,7 +41,11 @@
     [delegate checkDefaults];
     
     //We have access tokens so push them through to the next view.
-    [self performSegueWithIdentifier:@"facebookButtonPressedSegue" sender:self]; 
+//    PKMasterViewController* masterVC = [[PKMasterViewController alloc] init];
+//    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:masterVC];   
+//    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//    [self presentModalViewController:navigationController animated:YES];
+    //[self performSegueWithIdentifier:@"facebookButtonPressedSegue" sender:self]; 
   
 }
 
@@ -49,7 +54,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([[segue identifier] isEqualToString:@"facebookButtonPressedSegue"]) {
-        
         PKMasterViewController *masterVC = [segue destinationViewController];
         
     }
