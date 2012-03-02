@@ -9,7 +9,8 @@
 #import "PKAppDelegate.h"
 #import "PKMasterViewController.h"
 #import "PKFacebookConnectViewController.h"
-static NSString* APP_ID = @"210849718975311";
+//static NSString* APP_ID = @"210849718975311";
+static NSString *APP_ID = @"131590113628423";
 
 @implementation UINavigationBar (UINavigationBarCategory)
 /*
@@ -146,11 +147,11 @@ static NSString* APP_ID = @"210849718975311";
     if (![facebook isSessionValid]) {
         NSArray *permissions = [[NSArray alloc] initWithObjects:
                                 @"user_likes",
-                                @"user_birthday",
-                                @"user_location",
+                                //@"user_birthday",
+                                //@"user_location",
                                 @"user_about_me",
-                                @"user_hometown",
-                                @"user_work_history",
+                                //@"user_hometown",
+                                //@"user_work_history",
                                 @"user_photos",
                                 @"offline_access",
                                 nil];

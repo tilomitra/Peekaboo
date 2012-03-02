@@ -13,6 +13,7 @@
 
 #import "WEPopoverContentViewController.h"
 #import "UIBarButtonItem+WEPopover.h"
+#import "SVProgressHUD.h"
 
 
 
@@ -89,7 +90,7 @@
         [[self person] setData:result];
         [[self nameLabel] setText:self.person.name];
         [[self navigationController] setTitle:self.person.name];
-        [[self secondaryInfoLabel] setText:[self.person.location objectForKey:@"name"]];
+        //[[self secondaryInfoLabel] setText:[self.person.location objectForKey:@"name"]];
     }
     
     //Likes of a person
@@ -116,6 +117,7 @@
     
     else if ([requestType isEqualToString:[NSString stringWithFormat:@"%@/picture?type=large&access_token=%@", self.facebookId, token]]) {
         self.profilePictureView.image = [UIImage imageWithData:result];
+        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Loaded %@'s profile", self.person.name]];
     }
 }
 

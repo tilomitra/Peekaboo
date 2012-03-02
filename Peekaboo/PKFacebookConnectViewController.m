@@ -36,9 +36,9 @@
 
 - (IBAction)facebookButtonSelected:(id)sender {
     
-    PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
+    //PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    [delegate checkDefaults];
+    //[delegate checkDefaults];
     
     //We have access tokens so push them through to the next view.
 //    PKMasterViewController* masterVC = [[PKMasterViewController alloc] init];
@@ -54,6 +54,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([[segue identifier] isEqualToString:@"facebookButtonPressedSegue"]) {
+        PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [delegate checkDefaults];
         PKMasterViewController *masterVC = [segue destinationViewController];
         
     }
@@ -74,7 +76,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
     //[self performSegueWithIdentifier:@"facebookButtonPressedSegue" sender:self];
 }
 

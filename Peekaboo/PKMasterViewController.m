@@ -94,12 +94,12 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 #pragma mark - View lifecycle
 
 
-- (void)facebookLogout:(id)sender {
-    PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate logoutFromFacebook];
-    [self performSegueWithIdentifier:@"returnToFacebookConnect" sender:self];
-
-}
+//- (IBAction)facebookLogout:(id)sender {
+//    PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    [delegate logoutFromFacebook];
+//    [self performSegueWithIdentifier:@"returnToFacebookConnect" sender:self];
+//
+//}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -109,11 +109,6 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     //remove the connect with facebook back button
 
     self.navigationItem.leftBarButtonItem = nil;
-    
-    
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(facebookLogout:)];          
-    self.navigationItem.rightBarButtonItem = logoutButton;
-    
     //this adds custom top nav bar
     
     /*
@@ -192,7 +187,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     
     [toolbar setFrame:CGRectMake(0, 410, 320, 50)];
     self.navigationItem.hidesBackButton = YES;
-    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     //Add Tap Recognizer to Instruction ImageView
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideInstructionImageView:)];
@@ -297,7 +292,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
     [[self stillButton] setEnabled:NO];
     [[self captureManager] captureStillImage];
     // Flash the screen white and fade it out to give UI feedback that a still image was taken
-    UIView *flashView = [[UIView alloc] initWithFrame:[[self videoPreviewView] frame]];
+    UIView *flashView = [[UIView alloc] initWithFrame:[[self view] frame]];
     [flashView setBackgroundColor:[UIColor whiteColor]];
     [[[self view] window] addSubview:flashView];
     
@@ -310,7 +305,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
                      }
      ];
     
-    [SVProgressHUD showWithStatus:@"Detecting Faces" maskType:SVProgressHUDMaskTypeGradient];
+    [SVProgressHUD showWithStatus:@"Detecting Faces" maskType:SVProgressHUDMaskTypeBlack];
     
     
 }
@@ -346,6 +341,8 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
         //set properties on the person view here...
     }
     else if ([[segue identifier] isEqualToString:@"returnToFacebookConnect"]) {
+        PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [delegate logoutFromFacebook];
         PKFacebookConnectViewController *fbConnectVC = [segue destinationViewController];
         
     }

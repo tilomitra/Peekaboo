@@ -316,28 +316,24 @@
                                                                  //UIImage *rotatedImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationUp];
                                                                  
                                                                  lastCapturedImage = [[UIImage alloc] initWithData:imageData];
-                                                                 
-                                                                 
                                                                  CGSize smallSize = CGSizeMake(image.size.width/4.0, image.size.height/4.0);
-                                                                 
                                                                  UIImage *scaledImage = [image scaledToSize:smallSize];
                                                                  
-                                                                 
-                                                                 
+                                                                 /*
                                                                  NSLog(@"width: %f", image.size.width);
                                                                  NSLog(@"height: %f", image.size.height);
-                                                                                                                                  
                                                                  NSLog(@"scaled width: %f", scaledImage.size.width);
                                                                  NSLog(@"scaled height: %f", scaledImage.size.height);
+                                                                 */
                                                                  
                                                                  NSData *scaledImageData = UIImageJPEGRepresentation(scaledImage, 1);
-                                                                 
                                                                  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                                                                  [dateFormatter setDateFormat:@"yyyy-MM-dd_HH-mm-ss"];
                                                                  NSString *imageName = [NSString stringWithFormat:@"%@.jpg", [dateFormatter stringFromDate:[NSDate date]]];
                                                                  
-                                                                 NSLog(@"%@", imageName);
+                                                                 //NSLog(@"%@", imageName);
                                                                  
+                                                                 //Store File in Parse
                                                                  PFFile *imageFile = [PFFile fileWithName:imageName data:scaledImageData];
                                                                  
                                                                  [image release];
@@ -345,6 +341,7 @@
                                                                  [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                                                                      
                                                                      if (succeeded) {
+                                                                         //[imageFile release];
                                                                          PFObject *userPhoto = [PFObject objectWithClassName:@"CapturedPhoto"];
                                                                          
                                                                          //setting properties:
@@ -357,9 +354,12 @@
                                                                              if (succeeded) {
                                                                                  
                                                                                  [self setLastParseId:userPhoto.objectId];
-                                                                                 NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/addCapturedImage/%@", userPhoto.objectId];
+                                                                                 //NSString *urlString = [NSString stringWithFormat:@"http://stormy-moon-8803.herokuapp.com/api/addCapturedImage/%@", userPhoto.objectId];
                                                                                  
-                                                                                 NSLog(@"Url for saving to db: %@", urlString);
+                                                                                 NSString *urlString = [NSString stringWithFormat:@"http://furious-lightning-9793.herokuapp.com/recognizeFromFaceComWithParseId/%@", userPhoto.objectId];
+                                                                                 
+                                                                                 
+                                                                                 NSLog(@"Url for recognizing face from face.com: %@", urlString);
                                                                                  NSURL *url = [NSURL URLWithString:urlString];
                                                                                  ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
                                                                                  [request setDelegate:self];
@@ -389,7 +389,6 @@
                                                              }
                                                              
                                                              
-                                                             
                                                          }];
 }
 
@@ -399,7 +398,7 @@
 {
     // Use when fetching text data
     NSString *responseString = [request responseString];
-    //NSLog(@"%@", responseString);
+    NSLog(@"%@", responseString);
     // Use when fetching binary data
     //NSData *responseData = [request responseData];
     
@@ -409,7 +408,7 @@
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     // parse the JSON string into an object - assuming json_string is a NSString of JSON data
     NSDictionary *responseObj = [parser objectWithString:responseString error:nil];
-    NSArray *photosArray = (NSArray *)[[responseObj objectForKey:@"data"] objectForKey:@"photos"];
+    NSArray *photosArray = (NSArray *)[responseObj objectForKey:@"photos"];
     [self setFacePhotosObject:(NSDictionary *)[photosArray objectAtIndex:0]];
     NSLog(@"PHOTOS: %@", self.facePhotosObject);
     

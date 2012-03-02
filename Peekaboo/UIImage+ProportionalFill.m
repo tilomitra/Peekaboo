@@ -139,4 +139,32 @@
     return newImage;
 }
 
+- (UIImage *)crop:(CGRect)rect {
+    if (self.scale > 1.0f) {
+        rect = CGRectMake(rect.origin.x * self.scale,
+                          rect.origin.y * self.scale,
+                          rect.size.width * self.scale,
+                          rect.size.height * self.scale);
+    }
+    
+    
+    NSLog(@"The width is %f", rect.size.width);
+    NSLog(@"The height is %f", rect.size.height);
+    NSLog(@"The x is %f", rect.origin.x);
+    NSLog(@"The y is %f", rect.origin.y);
+    
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, rect);
+    UIImage *result = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
+    
+    
+    NSLog(@"The cropped image width is %f", result.size.width);
+    NSLog(@"The cropped image height is %f", result.size.height);
+    
+    CGImageRelease(imageRef);
+    return result;
+
+}
+
+
 @end

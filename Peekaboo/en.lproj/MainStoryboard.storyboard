@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1923" systemVersion="11C74" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1923" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="3">
     <dependencies>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="919"/>
@@ -30,8 +30,8 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="facebookLoginBg.png" id="b9i-qn-edc">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="-64" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nuB-Bb-S1v">
                                 <rect key="frame" x="33" y="255" width="260" height="41"/>
@@ -46,7 +46,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="d2H-Q1-auU" kind="modal" identifier="facebookButtonPressedSegue" modalTransitionStyle="flipHorizontal" id="OnC-Xj-hYa"/>
+                                    <segue destination="sch-kV-Euo" kind="push" identifier="facebookButtonPressedSegue" id="l11-qn-Lv4"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" minimumFontSize="11" id="7Nx-h2-wGK">
@@ -64,22 +64,7 @@
                     <navigationItem key="navigationItem" title="Login" id="gMS-LS-EUj"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-333" y="-1012"/>
-        </scene>
-        <scene sceneID="b7i-9p-nLm">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="D5T-L3-tqE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController definesPresentationContext="YES" id="d2H-Q1-auU" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="SoT-xl-1nC">
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="sch-kV-Euo" kind="relationship" relationship="rootViewController" id="bJY-ux-ZRf"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="1301" y="-1012"/>
+            <point key="canvasLocation" x="-257" y="-980"/>
         </scene>
         <scene sceneID="bw6-xr-cBv">
             <objects>
@@ -163,7 +148,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Scan" id="Rvg-23-QQ4"/>
+                    <navigationItem key="navigationItem" title="Scan" id="Rvg-23-QQ4">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="JUZ-Sk-XwJ">
+                            <connections>
+                                <segue destination="3" kind="modal" identifier="returnToFacebookConnect" modalTransitionStyle="flipHorizontal" id="r8z-58-vNc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="cameraToggleButton" destination="xlJ-tv-M47" id="WVv-g5-Xq7"/>
                         <outlet property="instructionImageView" destination="Tez-ak-k9z" id="KRo-PR-5en"/>
@@ -172,7 +163,6 @@
                         <outlet property="videoPreviewView" destination="z8b-Ro-pzx" id="Eo9-iz-BCg"/>
                         <outlet property="view" destination="jSy-h0-k9m" id="r2W-VG-SOz"/>
                         <segue destination="21" kind="push" identifier="testSegue" id="9A0-qH-t5u"/>
-                        <segue destination="3" kind="modal" identifier="returnToFacebookConnect" modalTransitionStyle="flipHorizontal" id="ZNc-4A-zo8"/>
                     </connections>
                 </viewController>
             </objects>
@@ -195,24 +185,35 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.90992272418478259" green="0.90992272418478259" blue="0.90992272418478259" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.79999999999999993" contentMode="left" text="No Faces Detected." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="kw3-Sh-GNY">
-                                <rect key="frame" x="54" y="343" width="213" height="31"/>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="Cpq-qm-3BM">
+                                <rect key="frame" x="0.0" y="339" width="320" height="77"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.068363724955571581" green="0.070930071526200331" blue="0.073666779891304324" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <color key="shadowColor" red="0.15667459239130432" green="0.15667459239130432" blue="0.15667459239130432" alpha="1" colorSpace="calibratedRGB"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.79999999999999993" contentMode="left" text="Select a person by tapping on them" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="fXL-sO-vsv">
-                                <rect key="frame" x="54" y="375" width="213" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.068363724955571581" green="0.070930071526200331" blue="0.073666779891304324" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <color key="shadowColor" red="0.15667459239130432" green="0.15667459239130432" blue="0.15667459239130432" alpha="1" colorSpace="calibratedRGB"/>
-                            </label>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="shadow.png" id="JT6-H6-yJi">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="10"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.79999999999999993" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="kw3-Sh-GNY">
+                                        <rect key="frame" x="54" y="15" width="213" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.93985172189999999" green="0.93985172189999999" blue="0.93985172189999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.79999999999999993" contentMode="left" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="fXL-sO-vsv">
+                                        <rect key="frame" x="54" y="41" width="213" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.93985172189999999" green="0.93985172189999999" blue="0.93985172189999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.93985172193877553" green="0.93985172193877553" blue="0.93985172193877553" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -341,7 +342,6 @@
                 <relationship kind="outlet" name="capturedImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="facesLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="facesSubTextLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tempRecognizeButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="PKFacebookConnectViewController" superclassName="UIViewController">
