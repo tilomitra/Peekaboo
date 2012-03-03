@@ -15,7 +15,6 @@
 @interface PKMasterViewController : UIViewController <UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) PKDetailViewController *detailViewController;
-
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
@@ -34,6 +33,9 @@
 @property (nonatomic, retain) NSArray *data;
 @property (nonatomic, retain) NSDictionary *retrievedFacesObject;
 @property (nonatomic, retain) NSString *retrievedParseId;
+
+//ZUIViewController Pan Gesture Recognizer
+@property (nonatomic, retain) UIPanGestureRecognizer *panGestureRecognizer;
 
 - (IBAction)toggleRecording:(id)sender;
 - (IBAction)captureStillImage:(id)sender;

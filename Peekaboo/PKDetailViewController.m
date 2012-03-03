@@ -12,7 +12,11 @@
 #import "ASIHTTPRequest.h"
 #import "SBJson.h"
 #import "UIImage+ProportionalFill.h"
+#import "ASIHTTPRequest.h"
+#import "SBJson.h"
 
+static NSString *FACE_API_KEY = @"f28554fbd62ae04011c90b4895195481";
+static NSString *FACE_API_SECRET = @"e08dc8763856d45e2e479ed4d961b1fa";
 
 @implementation PKDetailViewController
 
@@ -42,24 +46,77 @@
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
+#pragma mark - Learning
+
+//Implements learning. If tid has a uid which is in the green, the tid is sent to face.com be trained, to improve the recognition of the person in the future
+- (void)learnFromTag:(NSDictionary *)tag {
+    
+    NSString *tagId = [tag objectForKey:@"tid"];
+    NSDictionary *mostLikelyPerson = (NSDictionary *)[(NSArray *)[tag objectForKey:@"uids"] objectAtIndex:0];
+    
+    
+    if ([self findDifferenceBetweenConfidenceAndThresholdForTag:tag] > 25) {
+        NSURL *tagSaveApiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://api.face.com/tags/save.json?api_key=%@&api_secret=%@&uid=%@&tids=%@", FACE_API_KEY, FACE_API_SECRET, [mostLikelyPerson objectForKey:@"uid"], tagId]];
+        
+
+        
+        NSLog(@"Confidence is high - starting learning protocols with URL %@", tagSaveApiUrl);
+        
+        __block ASIHTTPRequest *tagSaveRequest = [ASIHTTPRequest requestWithURL:tagSaveApiUrl];
+        [tagSaveRequest setCompletionBlock:^{
+            //NSLog(@"%@", [tagSaveRequest responseString]);
+            
+            //SBJsonParser *parser = [[SBJsonParser alloc] init];
+            //NSDictionary *responseObj = [parser objectWithString:[tagSaveRequest responseString]];
+            
+            //start the face training request
+            NSURL *faceTrainApiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://api.face.com/faces/train.json?api_key=%@&api_secret=%@&uids=%@", FACE_API_KEY, FACE_API_SECRET, [mostLikelyPerson objectForKey:@"uid"]]];
+            
+            NSLog(@"Starting training protocols with URL %@", faceTrainApiUrl);
+
+            __block ASIHTTPRequest *faceTrainRequest = [ASIHTTPRequest requestWithURL:faceTrainApiUrl];
+            [faceTrainRequest setCompletionBlock:^{
+                NSLog(@"The user was trained successfully based on the picture passed.");
+            }];
+            
+            [faceTrainRequest setFailedBlock:^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"There was an error when training the system with this image." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                // optional - add more buttons:
+                [alert show]; 
+            }];
+        }];
+         
+        [tagSaveRequest setFailedBlock:^{
+            //NSLog(@"%@",[tagSaveRequest error]); 
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"There was an error when saving the tag of this image." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            // optional - add more buttons:
+            [alert show];
+        }];
+        [tagSaveRequest startAsynchronous];
+        
+        
+    }
 }
 
 
 #pragma mark - Drawing Faces
 
+- (int)findDifferenceBetweenConfidenceAndThresholdForTag:(NSDictionary *)tag {
+    NSArray *uidArray = (NSArray *)[tag objectForKey:@"uids"];
+
+    if (uidArray.count > 0) {
+        int threshold = [[tag objectForKey:@"threshold"] intValue];
+        int confidence = [[(NSDictionary *)[uidArray objectAtIndex:0] objectForKey:@"confidence"] intValue];
+    }
+    else {
+        return nil;
+    }
+
+}
+
 - (void)drawFaces:(NSArray *)tags
 {
     
-//    UIColor *redColor = [UIColor colorWithRed:214.0/255.0 green:19.0/255.0 blue:28.0/255.0 alpha:1.0];
-//    UIColor *orangeColor = [UIColor colorWithRed:242.0/255.0 green:141.0/255.0 blue:32.0/255.0 alpha:1.0];
-//    UIColor *yellowColor = [UIColor colorWithRed:245.0/255.0 green:232.0/255.0 blue:20.0/255.0 alpha:1.0];
-//    UIColor *yellowGreenColor = [UIColor colorWithRed:195.0/255.0 green:231.0/255.0 blue:59.0/255.0 alpha:1.0];
-//    UIColor *greenColor = [UIColor colorWithRed:94.0/255.0 green:214.0/255.0 blue:34 alpha:1.0/255.0];
-
 
     NSArray *colorArray = [NSArray arrayWithObjects:[UIColor redColor], [UIColor orangeColor], [UIColor yellowColor], [UIColor greenColor], nil];
     self.squaresArray = [NSMutableArray array];
@@ -74,29 +131,28 @@
         //we only want to draw the square if the face is recognizable..
         NSArray *uidArray = (NSArray *)[tag objectForKey:@"uids"];
         if (uidArray.count > 0) {
+        
+            int confThresholdDiff = [self findDifferenceBetweenConfidenceAndThresholdForTag:tag];
             
-            //Get the threshold and the confidence for the picture and find the difference.
-            int threshold = [[tag objectForKey:@"threshold"] intValue];
-            int confidence = [[(NSDictionary *)[uidArray objectAtIndex:0] objectForKey:@"confidence"] intValue];
             
         //If the confidence is lower than the threshold, or if its only marginally higher, we'll display it in red (signifying a guess)
             UIColor *chosenColor = [colorArray lastObject];            
-            if (confidence - threshold > -25 && confidence - threshold <= 10) {
+            if (confThresholdDiff > -25 && confThresholdDiff <= 10) {
                 chosenColor = [colorArray objectAtIndex:0]; //red
             }
             
-            if (confidence - threshold > 10) {
+            if (confThresholdDiff > 10) {
                 chosenColor = [colorArray objectAtIndex:1]; //orange
             }
             
-            if (confidence - threshold > 17) {
+            if (confThresholdDiff > 17) {
                 chosenColor = [colorArray objectAtIndex:2]; //yellow
             }
             
-            if (confidence - threshold > 25) {
+            if (confThresholdDiff > 25) {
                 chosenColor = [colorArray objectAtIndex:3]; //green
+                [self learnFromTag:tag];
             }
-            
             
             NSLog(@"The width is %@", [tag objectForKey:@"width"]);
             CGFloat width = ([[tag objectForKey:@"width"] floatValue] * capturedImageView.frame.size.width) / 100;
@@ -146,8 +202,6 @@
     
         [self configureFaceLabelWith:tagCount];
         NSLog(@"%d", self.squaresArray.count);
-        //[[NSUserDefaults standardUserDefaults] setObject:self.squaresArray forKey:@"squaresArray"];
-        //[[NSUserDefaults standardUserDefaults] synchronize];
     }
     
 }
@@ -306,37 +360,10 @@
 }
 
 
+#pragma mark - Old Face Recognition Request Delegate Methods
 
-#pragma mark - Face Recognition Methods
-
-- (void) recognizeUsingFaceCom {
-    
-    //get image url
-    PFQuery *query = [PFQuery queryWithClassName:@"DetectedPhoto"];
-    [query whereKey:@"objectId" equalTo:self.lastParseId];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            NSLog(@"Successfully retrieved %d scores.", objects.count);
-            
-            PFObject *object = [objects lastObject]; //assuming we only have one object since searching by Parse ID
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
-    
-    //get facebook id
-    
-    //call the url
-    
-    //get the request back
-    
-    //get the uid from the request
-    
-    
-}
-
+//These are old methods used with our own recognition system.
+/*
 - (NSURL *) getUrlToQueryFaceComFaceRecognitionWithFacebookId:(NSString *)facebookId andImagePath:(NSString *)imagePath {
     
     //access token hack
@@ -407,6 +434,8 @@
     [alert show];
     
 }
+ 
+*/
 
 
 #pragma mark - View lifecycle
@@ -473,5 +502,11 @@
     //return NO;
 }
 
-#pragma mark Face Detection Methods
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Release any cached data, images, etc that aren't in use.
+}
+
+
 @end

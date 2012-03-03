@@ -10,11 +10,18 @@
 #import "PKMasterViewController.h"
 #import "PKAppDelegate.h"
 #import "PKMasterViewController.h"
+#import "PKTrainingViewController.h"
 
 @implementation PKFacebookConnectViewController
 
 @synthesize facebookConnectButton;
 @synthesize facebook;
+
+
+- (BOOL) didUserTrain
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"UserTrained"];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,16 +43,29 @@
 
 - (IBAction)facebookButtonSelected:(id)sender {
     
-    //PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
+    PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate checkDefaults];
     
-    //[delegate checkDefaults];
+    BOOL userTrained = [[NSUserDefaults standardUserDefaults] boolForKey:@"UserTrained"];
     
-    //We have access tokens so push them through to the next view.
+    if (userTrained == YES) {
+        //Go to Master View
+        //PKMasterViewController* masterVC = [[PKMasterViewController alloc] init];
+        [self performSegueWithIdentifier:@"userTrainedMasterSegue" sender:nil];
+    }
+    
+    else if (userTrained == NO) {
+        //Go to Training View
+        [self performSegueWithIdentifier:@"userNotTrainedTrainingSegue" sender:nil];
+
+    }
+    
+//We have access tokens so push them through to the next view.
 //    PKMasterViewController* masterVC = [[PKMasterViewController alloc] init];
 //    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:masterVC];   
 //    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 //    [self presentModalViewController:navigationController animated:YES];
-    //[self performSegueWithIdentifier:@"facebookButtonPressedSegue" sender:self]; 
+//[self performSegueWithIdentifier:@"facebookButtonPressedSegue" sender:self]; 
   
 }
 
@@ -53,11 +73,12 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ([[segue identifier] isEqualToString:@"facebookButtonPressedSegue"]) {
-        PKAppDelegate *delegate = (PKAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [delegate checkDefaults];
+    if ([[segue identifier] isEqualToString:@"userTrainedMasterSegue"]) {
         PKMasterViewController *masterVC = [segue destinationViewController];
-        
+    }
+    
+    else if ([[segue identifier] isEqualToString:@"userNotTrainedTrainingSegue"]) {
+        PKTrainingViewController *trainingVC = [segue destinationViewController];
     }
 }
 
@@ -75,6 +96,13 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    // Setting up training user defaults if they don't already exist 
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"UserTrained"])
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"UserTrained"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 

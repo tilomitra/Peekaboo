@@ -31,4 +31,6 @@
 - (void) recognizeUsingFaceCom;
 - (void)saveDetectedFaceFromImage:(UIImage *)image inButton:(UIButton *)button;
 - (NSString *)getRecognizedFacebookIdFromTag:(NSDictionary *)tag;
+- (int)findDifferenceBetweenConfidenceAndThresholdForTag:(NSDictionary *)tag;
+- (void)learnFromTag:(NSDictionary *)tag;
 @end

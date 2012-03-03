@@ -17,7 +17,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ASIHTTPRequest.h"
 #import "PKFacebookConnectViewController.h"
-
+#import "ZUUIRevealController.h"
+#import "PKSettingsViewController.h"
 
 
 static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
@@ -54,6 +55,7 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize toolbar;
 @synthesize instructionImageView;
+@synthesize panGestureRecognizer;
 
 - (void)awakeFromNib
 {
@@ -106,9 +108,17 @@ static void *AVCamFocusModeObserverContext = &AVCamFocusModeObserverContext;
 	// Do any additional setup after loading the view, typically from a nib.
     // Set up the edit and add buttons.
     
-    //remove the connect with facebook back button
+    //ZUUIRevealController Set Up
+    if ([self.navigationController.parentViewController respondsToSelector:@selector(revealToggle:)] && [self.navigationController.parentViewController respondsToSelector:@selector(revealGesture:)]) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reveal" style:UIBarButtonItemStylePlain target:self.navigationController.parentViewController action:@selector(revealToggle:)];
+        
+        
+        self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self.navigationController.parentViewController action:@selector(revealGesture:)];
+        
+        [self.navigationController.navigationBar addGestureRecognizer:self.panGestureRecognizer];
+    }
 
-    self.navigationItem.leftBarButtonItem = nil;
+    
     //this adds custom top nav bar
     
     /*

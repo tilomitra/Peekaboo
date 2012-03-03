@@ -8,7 +8,9 @@
 
 #import "PKAppDelegate.h"
 #import "PKMasterViewController.h"
+#import "PKSettingsViewController.h"
 #import "PKFacebookConnectViewController.h"
+#import "ZUUIRevealController.h"
 //static NSString* APP_ID = @"210849718975311";
 static NSString *APP_ID = @"131590113628423";
 
@@ -33,10 +35,18 @@ static NSString *APP_ID = @"131590113628423";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    facebook = [[Facebook alloc] initWithAppId:APP_ID andDelegate:self];
+
     // Override point for customization after application launch.
-    //UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    //PKMasterViewController *controller = (PKMasterViewController *)navigationController.topViewController;
+    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+    PKMasterViewController *controller = (PKMasterViewController *)navigationController.topViewController;
     
+    PKSettingsViewController *settingsVC = [[PKSettingsViewController alloc] init];
+    
+    ZUUIRevealController *revealController = [[ZUUIRevealController alloc] initWithFrontViewController:navigationController rearViewController:settingsVC];
+    
+    
+
     //PKMasterViewController *masterVC = [navigationController.storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
     //controller.managedObjectContext = self.managedObjectContext;
     //PKMaster *custom = [navController.storyboard instantiateViewControllerWithIdentifier:@"CustomController"];
@@ -45,7 +55,8 @@ static NSString *APP_ID = @"131590113628423";
     //navigationController.viewControllers = [NSArray arrayWithObjects:masterVC, nil];
     
     //[navigationController popToViewController:controller animated:YES];
-    //[self.window makeKeyAndVisible];
+    self.window.rootViewController = revealController;
+    [self.window makeKeyAndVisible];
     
     // Create resizable images
     //UIImage *gradientImage44 = [[UIImage imageNamed:@"topbar"] 
@@ -59,10 +70,10 @@ static NSString *APP_ID = @"131590113628423";
     //                                   forBarMetrics:UIBarMetricsLandscapePhone];
     
     
-    
-    
+    //Uncomment this when you want to test PKTrainingViewController
+    //[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserTrained"]; 
+
     //Facebook Authentication
-    facebook = [[Facebook alloc] initWithAppId:APP_ID andDelegate:self];
 
     return YES;
 }
